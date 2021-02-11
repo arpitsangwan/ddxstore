@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-
-const imageSchema = mongoose.Schema({
-  url:{
-    type:String,
-    required:true
-  },
-  filename:String
-})
-const stockSchema = mongoose.Schema({
+const ReviewSchema=require('./reviewSchema')
+// const ImageSchema = mongoose.Schema({
+//   url:{
+//     type:String,
+//     required:true
+//   },
+//   filename:String
+// })
+const StockSchema = mongoose.Schema({
   size:{
     type:String,
     required:true
@@ -24,6 +24,12 @@ const ProductSchema = new mongoose.Schema({
   //   type:String,
   //   required:true
   // },
+  reviews:[
+    {
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'ReviewSchema'
+    }
+  ],
   productName:{
     type:String,
     required:true
@@ -32,7 +38,7 @@ const ProductSchema = new mongoose.Schema({
     type:String,
     required:true
   },
-  stocks:[stockSchema],
+  stocks:[StockSchema],
   brand:{
     type:String,
     required:true
@@ -54,10 +60,10 @@ const ProductSchema = new mongoose.Schema({
     required:true,
 
   },
-  unitPrice:{
-    type:Number,
-    required:true,
-  },
+  // unitPrice:{
+  //   type:Number,
+  //   required:true,
+  // },
   // availableSize:String,
   // availableColor:String,
   // size:{
@@ -66,10 +72,11 @@ const ProductSchema = new mongoose.Schema({
   // },
   color:String,
   // discount:String,
-  images:[imageSchema],
+  images:[String],
   Keyword:{
     type:[String],
-  }
+  },
+  brand:String
 })
 
 module.exports = mongoose.model('Product',ProductSchema);

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+const OrderSchema=require('./OrderSchema')
 const AddressSchema = new Schema({
   fullname:{
     type:String,
@@ -47,6 +47,12 @@ const UserSchema = new Schema({
     required:true
   },
   address:[AddressSchema],
+  orders:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'OrderSchema'
+    }
+  ],
   isSeller:{
     type:Boolean,
     required:true,

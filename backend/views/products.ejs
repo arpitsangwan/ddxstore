@@ -1,13 +1,17 @@
 <%- include('partials/header')%>
 <%-include('partials/navbar')%>
 
+ <% if(!products.length) { %>
+  <h2 class="text-center text-white"> Try changing search term </h2> 
+ <% }%>
+ 
 
 <div class = "container d-flex justify-content-start flex-wrap">
   
     <%products.forEach(product=>{%>
 
       <div class="card mx-auto my-4 " style="width: 25%;">
-        <img src="<%=product.images[0].url%>" class="card-img-top" style="" alt="...">
+        <img src="<%=product.images[0]%>" class="card-img-top" style="" alt="...">
         <div class="card-body">
           <p class="card-text"><%=product.productDescription%></p>
           
