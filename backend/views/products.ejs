@@ -1,0 +1,40 @@
+<%- include('partials/header')%>
+<%-include('partials/navbar')%>
+
+
+<div class = "container d-flex justify-content-start flex-wrap">
+  
+    <%products.forEach(product=>{%>
+
+      <div class="card mx-auto my-4 " style="width: 25%;">
+        <img src="<%=product.images[0].url%>" class="card-img-top" style="" alt="...">
+        <div class="card-body">
+          <p class="card-text"><%=product.productDescription%></p>
+          
+        </div>
+        <strong style="font-size: 2rem;">₹<%=product.unitPrice%></strong>
+        
+        <button class="btn btn-success m-2">Buy</button>
+        <a class="btn btn-primary m-2" href="/products/<%=product._id%>">View Details</a>
+      </div>
+
+  <%})%>
+    
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%- include('partials/footer')%>

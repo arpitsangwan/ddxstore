@@ -1,0 +1,14 @@
+.Products{
+  display:flex;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+.Product-card{
+  width:25%;
+  height:25vh;
+  color:azure;
+
+}
+.Product-card img{
+  width:25%;
+}

@@ -1,0 +1,49 @@
+<%-include('./partials/header')%>
+<%- include('./partials/navbar') %>
+
+<div class="container-fluid">
+  <h1 class="text-center mt-5">Login</h1>
+<div class="row justify-content-center">
+  <div class=" col-sm-12 col-md-6 col-xl-4">
+    <form class="needs-validation" action="/login" method="POST" novalidate>
+    <div class="m-2">
+        <label class="form-label" for="username">UserName</label>
+        <input class="form-control" type="text" name="username" id="username" placeholder="username" autofocus required>
+    </div>
+    <div class="m-2">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-control" type="password" name="password" id="password" placeholder="password" required>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block mr-3 mt-4 px-4 ">Login</button>
+</form>
+</div>
+
+</div>
+</div>
+  
+
+
+
+
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+<%-include('./partials/footer')%>
