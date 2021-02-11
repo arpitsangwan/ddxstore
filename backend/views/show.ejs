@@ -25,6 +25,26 @@
             <button class="btn-sm btn-light my-2 my-sm-0 search"><b>Search</b></button>
         </form>
     </div>
+
+    
 </nav>
+
+<div class="container-fluid  text-white" >
+    <div class="row m-4">
+        <div class="col-8">
+            
+            <img src=<%=product.images[0]%> style="max-width: 100%; min-width: 100%; height:auto">
+        </div>
+        <div class="col-4 ">
+            <h3><%=product.productName%></h3>
+            <p class="" style="font-size: 1.7rem; font-weight: lighter;">₹<%=product.mrp%></p>
+            <p></p>
+            <%product.stocks.forEach(s=>{%>
+                < class="btn btn-primary" disabled=><%=s.size%></>
+            <%})%>
+            <p></p>
+        </div>
+    </div>
+</div>
 </body>
 </html>

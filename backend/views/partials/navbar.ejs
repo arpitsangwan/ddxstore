@@ -19,9 +19,9 @@
                 </div>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="searchterm form-control ml-auto mr-sm-2" type="text" placeholder="Search">
-            <button class="btn-sm btn-light my-2 my-sm-0 search"><b>Search</b></button>
+        <form class="form-inline my-2 my-lg-0" method="GET" action="/search" >
+            <input class="searchterm form-control ml-auto mr-sm-2" name = "searchterm" type="text" placeholder="Search">
+            <button type="submit" class="btn-sm btn-light my-2 my-sm-0 search"><b>Search</b></button>
         </form>
     </div>
 </nav>

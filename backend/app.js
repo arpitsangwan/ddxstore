@@ -28,9 +28,10 @@ app.get('/products',async(req,res)=>{
   let newProduct = await Product.find()
   res.render('products',{products:newProduct});
 })
-app.get('/products/search',async(req,res)=>{
-   let {q}= req.query
-   let products = await Product.find({Keyword:q})
+
+app.get('/search',async(req,res)=>{
+   let {searchterm}= req.query
+   let products = await Product.find({Keyword:searchterm})
   res.render('products',{products});
 })
 
