@@ -1,12 +1,17 @@
+const mongoose = require('mongoose')
+const Review = require('./models/reviewSchema')
+const Product= require('./models/productSchema');
+const User=require('./models/userSchema')
+
+
 const express = require('express')
 const app = express();
-const Product= require('./models/productSchema');
-const mongoose = require('mongoose')
+
+
 app.set('view engine', 'ejs');
 const bodyParser = require('body-parser')
 app.use(bodyParser.json()); 
 app.use(express.urlencoded({ extended:false }))
-const User=require('./models/userSchema')
 app.use(express.static('public'))
 
 const dbUrl = "mongodb://localhost:27017/ddx_db"
@@ -24,6 +29,17 @@ mongoose.connect(dbUrl,{
 app.get('/',(req,res)=>{
   res.render('home');
 });
+app.post('/products/:id/comment',async (req,res)=>{
+  let {id}=req.params
+  let {text}=req.body
+  let prod= await Product.findById(id)
+  newReview= new Review({review:text})
+  await newReview.save()
+  prod.reviews.push(newReview)
+  await prod.save()
+  res.send(newReview.review)
+
+})
 app.get('/products',async(req,res)=>{
   let newProduct = await Product.find()
   res.render('products',{products:newProduct});
@@ -55,8 +71,9 @@ app.get('/women/:category',async (req,res)=>{
 })
 
 app.get('/products/:id',async (req,res)=>{
-  const product = await Product.findById(req.params.id);
-  res.render('show',{product});
+  const product = await Product.findById(req.params.id).populate('reviews');
+ 
+res.render('show',{product});
 })
 app.get('/login',(req,res)=>{
   res.render('login')

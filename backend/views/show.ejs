@@ -1,6 +1,6 @@
 <%- include('./partials/header') %>
     
-  <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgba(0, 0, 0, 0.356);">
+  <nav class="navbar navbar-expand-sm navbar-light" style="background-color: rgba(0, 0, 0, 0.356);">
     <a class="navbar-brand" href="/">DDX</a>
     <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
         aria-expanded="false" aria-label="Toggle navigation"></button>
@@ -29,22 +29,60 @@
     
 </nav>
 
-<div class="container-fluid  text-white" >
+<div class="container-fluid " >
     <div class="row m-4">
         <div class="col-8">
             
             <img src=<%=product.images[0]%> style="max-width: 100%; min-width: 100%; height:auto">
         </div>
         <div class="col-4 ">
-            <h3><%=product.productName%></h3>
+           
+            <p class=display-4><%=product.productName%></p>
             <p class="" style="font-size: 1.7rem; font-weight: lighter;">₹<%=product.mrp%></p>
-            <p></p>
+            
             <%product.stocks.forEach(s=>{%>
-                < class="btn btn-primary" disabled=><%=s.size%></>
+                <span class="btn btn-primary"><%=s.size%></span>
             <%})%>
-            <p></p>
+            <div class="my-5">
+                <button class='py-3 btn btn-dark btn-outline-light container-fluid border-dark'>
+                    <span style="font-size: large;">Add to Cart</button>
+                </button>
+            </div>
+            <div>
+               <p> <%=product.productDescription%> </p>
+            </div>
+            <div>
+                <h3 class="mt-5">Reviews</h3>
+               
+               <form class='d-flex flex-column' novalidate>
+                   <textarea class='form-control' id='comment' name='comment' rows='3' placeholder="Add review" required></textarea>
+                   <input id="hidden" type="hidden" value="<%=product._id %>">
+                   <button class='btn btn-secondary mt-1 reviewbtn'>Submit</button>
+
+               </form>
+               <hr style="height:1px;background: rgba(0, 0, 0, 0.26);">
+          
+            </div>
+            <div class='allreviews'>
+              
+            <% for(let rev of product.reviews) {%>
+                <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Username</h4>
+                      <p class="card-text"><%= rev.review %></p>
+                    </div>
+                </div>
+                <% } %>  
+
+
+            </div> 
+
         </div>
+
     </div>
+
 </div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/JS/review.js"></script>
 </body>
 </html>

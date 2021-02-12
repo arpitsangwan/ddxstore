@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ReviewSchema=require('./reviewSchema')
+
 // const ImageSchema = mongoose.Schema({
 //   url:{
 //     type:String,
@@ -27,7 +27,7 @@ const ProductSchema = new mongoose.Schema({
   reviews:[
     {
     type:mongoose.Schema.Types.ObjectId,
-    ref:'ReviewSchema'
+    ref:'Review'
     }
   ],
   productName:{
