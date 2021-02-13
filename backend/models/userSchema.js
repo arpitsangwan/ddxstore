@@ -46,6 +46,9 @@ const UserSchema = new Schema({
     type:String,
     required:true
   },
+  image:{
+    type:String,
+  },
   address:[AddressSchema],
   orders:[
     {

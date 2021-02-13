@@ -1,0 +1,22 @@
+<%-include('partials/header')%>
+<%-include('partials/navbar')%>
+<% for(let product of products) { %>
+<div class='container'>
+    <div class="card d-flex" style="width: 25%;">
+        <img src="<%=product.image%>">
+        <div class="card-body">
+          <p class="card-text"><%=product.name%></p>
+          <p class="card-text"><%=product.size%></p>
+          <p class="card-text">Qty:<%=product.qty%></p>
+    
+          <p class="card-text">₹<%=product.mrp%></p>
+    
+    
+        </div>
+        
+        <button class="btn btn-success m-2">Buy</button>
+      </div>
+    
+</div>
+
+<% }  %>
