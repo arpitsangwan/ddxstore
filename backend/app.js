@@ -11,6 +11,7 @@ const passportSetup = require('./config/passportSetup');
 const authRoutes = require('./routes/authRoutes')
 const {isLoggedIn}= require('./middleware');
 
+
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.json()); 
@@ -56,6 +57,7 @@ app.use((req,res,next)=>{
   res.locals.currentUser= req.user;
   next();
 })
+
 app.get('/',(req,res)=>{
   res.render('home');
 });
@@ -127,6 +129,7 @@ app.get('/cart',async (req,res)=>{
   }
   for(let pr of req.session.cartProducts ){
     let temp=await Product.findById(pr.pid)
+
     let {productName,images,mrp}=temp
     products.push(
       {name:productName,
