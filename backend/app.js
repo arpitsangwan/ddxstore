@@ -7,6 +7,9 @@ const User=require('./models/userSchema')
 const express = require('express')
 const app = express();
 
+const session=require('express-session');
+
+
 
 app.set('view engine', 'ejs');
 const bodyParser = require('body-parser')
@@ -22,9 +25,31 @@ mongoose.connect(dbUrl,{
 }).then(()=>{
   console.log(`Database connection created at ${dbUrl}`)
 })
+
 .catch((err)=>{
   console.log("Something went wrong while connecting to the database "+ err);
 })
+const mongoStore = require("connect-mongo")(session);
+const secret = process.env.SECRET || "thisshouldbeasecret";
+const store = new mongoStore({
+	url: dbUrl,
+	secret: secret,
+	touchAfter: 24 * 3600,
+});
+app.use(
+	session({
+		store: store,
+		secret: secret,
+		resave: false,
+		saveUninitialized: false,
+		cookie: {
+			httpOnly: true,
+			// secure:true,
+			expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+			maxAge: 1000 * 60 * 60 * 24 * 7,
+		},
+	})
+);
 
 app.get('/',(req,res)=>{
   res.render('home');
@@ -38,7 +63,45 @@ app.post('/products/:id/comment',async (req,res)=>{
   prod.reviews.push(newReview)
   await prod.save()
   res.send(newReview.review)
+})
+app.post('/:id/cart',(req,res)=>{
+    let {size,qty}=req.body
+    let {id}=req.params
+    if(!req.session.cartProducts){
+      req.session.cartProducts=[{
+        pid:id,
+        size:size,
+        qty:qty
+      }]
+      
+    }
+  else{
+    req.session.cartProducts.push(
+      { 
+      pid:id,
+      size:size,
+      qty:qty
+      })
+    }
+    res.redirect('/cart')
+})
 
+app.get('/cart',async (req,res)=>{
+  const products=[]
+  for(let pr of req.session.cartProducts ){
+    let temp=await Product.findById(pr.pid)
+    
+    let {productName,images,mrp}=temp
+    products.push(
+      {name:productName,
+      image:images[0],
+      mrp:mrp,
+      size:pr.size,
+      qty:pr.qty
+      })   
+  }
+   res.render('cart',{products})
+  
 })
 app.get('/products',async(req,res)=>{
   let newProduct = await Product.find()
