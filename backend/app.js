@@ -8,9 +8,9 @@ const Review = require('./models/reviewSchema')
 const Product= require('./models/productSchema');
 const User=require('./models/userSchema')
 const passportSetup = require('./config/passportSetup');
+const flash=require('express-flash')
 const authRoutes = require('./routes/authRoutes')
 const {isLoggedIn}= require('./middleware');
-
 
 app.set('view engine', 'ejs');
 
@@ -51,10 +51,17 @@ app.use(
 		},
 	})
 );
+app.use(flash())
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use((req,res,next)=>{
   res.locals.currentUser= req.user;
+  next();
+})
+app.use((req,res,next)=>{
+  app.locals.success=req.flash('success')
+  app.locals.error=req.flash('error')
   next();
 })
 
@@ -67,24 +74,26 @@ app.use('/auth',authRoutes)
 app.get('/login',(req,res)=>{
   res.render('login')
 })
-app.get('/register',(req,res)=>{
-  res.render('register')
-})
+// app.get('/register',(req,res)=>{
+//   res.render('register')
+// })
 
-app.post('/register',async (req,res)=>{
+// app.post('/register',async (req,res)=>{
   
-  data=req.body;
-  newUser=new User(data);
-  try{
-  await newUser.save();}
-  catch(e){
-    res.redirect('/register')
-  }
-  res.redirect('/');
+//   data=req.body;
+//   newUser=new User(data);
+//   try{
+//   await newUser.save();}
+//   catch(e){
+//     req.flash('error',e.message)
+//     res.redirect('/register')
+//   }
+//   res.redirect('/');
  
-  })
+//   })
 app.get('/logout',(req,res)=>{
   req.logout();
+  req.flash('success','Successfully Logged out')
   res.redirect('/')
 })
 app.get('/profile',isLoggedIn,(req,res)=>{
@@ -119,6 +128,7 @@ app.post('/:id/cart',(req,res)=>{
       qty:qty
       })
     }
+    req.flash(Success,'Added to cart')
     res.redirect('/cart')
 })
 
