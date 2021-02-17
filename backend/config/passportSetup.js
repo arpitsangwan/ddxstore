@@ -1,6 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const User = require('../models/userSchema');
+const FacebookStrategy=require('passport-facebook')
 
 passport.serializeUser(function(user, done){
   done(null, user.id);
@@ -11,6 +12,30 @@ passport.deserializeUser(function(id, done){
       done(err, user);
   });
 });
+passport.use(new FacebookStrategy({
+  clientID:'440876164006143',
+  clientSecret:'3c31a1d485ac30fd0c700fe20c5d9f63',
+  callbackURL:"/auth/facebook/redirect",
+  profileFields: ['id', 'emails', 'name']
+},
+async (accessToken,refreshToken,profile,done)=>{
+ // console.log(profile);
+ let {email,first_name,last_name}=profile._json
+ let foundUser=await User.findOne({email})
+ if(foundUser){
+   return done(null,foundUser)
+ }
+ else{
+   let name=first_name +''+last_name;
+   let newUser=new User({
+     name:name,
+     email:email
+   })
+   let userCreated=await newUser.save()
+   console.log(userCreated);
+   done(null,userCreated) 
+ }
+}))
 
 passport.use(new GoogleStrategy({
   //options
@@ -29,7 +54,7 @@ passport.use(new GoogleStrategy({
   let newUser = new User({
     name:profile._json.name,
     email:profile._json.email,
-    password:profile.id,
+    
     image:profile._json.picture
   })
   

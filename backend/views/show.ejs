@@ -7,11 +7,11 @@
     <div class="row m-4">
         <div class="col-8">
             
-            <img src=<%=product.images[0]%> style="max-width: 100%; min-width: 100%; height:auto">
+            <img src=<%=product.images%> style="max-width: 100%; min-width: 100%; height:auto">
         </div>
         <div class="col-4 ">
            
-            <p class=display-4><%=product.productName%></p>
+            <p class=display-4><%=product.name%></p>
             <p class="" style="font-size: 1.7rem; font-weight: lighter;">₹<%=product.mrp%></p>
             <form action='/<%=product._id%>/cart' method='post'>
                 <label for='size'>Size</label>
@@ -40,7 +40,7 @@
             </form>
             
             <div>
-               <p> <%=product.productDescription%> </p>
+               <p> <%=product.description%> </p>
             </div>
             <div>
                 <h3 class="mt-5">Reviews</h3>

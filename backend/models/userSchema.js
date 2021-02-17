@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const OrderSchema=require('./OrderSchema')
+const Seller = require('./sellerSchema')
 const AddressSchema = new Schema({
   fullname:{
     type:String,
@@ -31,6 +32,14 @@ const AddressSchema = new Schema({
   }
 
 })
+const SellerSchema = new Schema({
+  products:[{
+    type:Schema.Types.ObjectId,
+    ref:'Product'
+  }],
+  
+});
+
 
 const UserSchema = new Schema({
   name:{
@@ -42,25 +51,26 @@ const UserSchema = new Schema({
     unique:true,
     required:true,
   },
-  password:{
-    type:String,
-    required:true
-  },
   image:{
     type:String,
+    default:'https://image.shutterstock.com/image-vector/man-avatar-profile-male-face-600w-471975115.jpg'
   },
   address:[AddressSchema],
   orders:[
     {
       type:mongoose.Schema.Types.ObjectId,
-      ref:'OrderSchema'
+      ref:'Order'
     }
   ],
   isSeller:{
     type:Boolean,
     required:true,
     default:false,
-  }
+  },
+  seller:[{
+    type:Schema.Types.ObjectId,
+    ref:'Seller'
+  }],
   
 })
 
