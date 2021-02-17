@@ -8,9 +8,10 @@ const OrderSchema = new Schema({
     required: true,
     ref: 'User',
   },
-  OrderId:{ 
-    type:Number,
-    required:true
+  orderId:{ 
+    type:String,
+    required:true,
+    unique:true
   },
   // email:{
   //   type:String,
@@ -29,16 +30,16 @@ const OrderSchema = new Schema({
       },
     },
   ],
-  paymentMethod: {
-    type: String,
-    required: true,
+  paymentId: {
+    type: String
   },
-  paymentResult: {
+
+  /* paymentResult: {
     id: { type: String },
     status: { type: String },
     update_time: { type: String },
     email_address: { type: String },
-  },
+  }, */
   totalPrice: {
     type: Number,
     required: true,
@@ -60,6 +61,9 @@ const OrderSchema = new Schema({
   deliveredAt: {
     type: Date,
   },
+  signature:{
+    type:String
+  }
 
 
 })

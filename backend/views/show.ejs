@@ -14,6 +14,7 @@
             <p class=display-4><%=product.productName%></p>
             <p class="" style="font-size: 1.7rem; font-weight: lighter;">₹<%=product.mrp%></p>
             <form action='/<%=product._id%>/cart' method='post'>
+                <input type='hidden' name='mrp' value=<%=product.mrp%> >
                 <label for='size'>Size</label>
                 <select name='size'>
                 <%product.stocks.forEach(s=>{%>

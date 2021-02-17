@@ -12,6 +12,7 @@ const flash=require('express-flash')
 const authRoutes = require('./routes/authRoutes')
 const methodOverride=require('method-override')
 const {isLoggedIn}= require('./middleware');
+const paymentRoutes=require('./routes/paymentRoutes')
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs');
 
@@ -67,7 +68,7 @@ app.use((req,res,next)=>{
   app.locals.user=req.user;
   next();
 })
-
+app.use('/buy',paymentRoutes)
 app.get('/',(req,res)=>{
   res.render('home');
 });
@@ -106,13 +107,14 @@ app.get('/profile',isLoggedIn,(req,res)=>{
 })
 
 app.post('/:id/cart',(req,res)=>{
-    let {size,qty}=req.body
+    let {size,qty,mrp}=req.body
     let {id}=req.params
     if(!req.session.cartProducts){
       req.session.cartProducts=[{
         pid:id,
         size:size,
-        qty:qty
+        qty:qty,
+        mrp:mrp
       }]
       
     }
@@ -121,7 +123,8 @@ app.post('/:id/cart',(req,res)=>{
       { 
       pid:id,
       size:size,
-      qty:qty
+      qty:qty,
+      mrp:mrp
       })
     }
     req.flash('success','Added to cart')
@@ -138,7 +141,8 @@ app.get('/cart',async (req,res)=>{
 
      let {productName,images,mrp}=temp
     products.push(
-      {name:productName,
+      {id:pr.pid,
+      name:productName,
       image:images[0],
       mrp:mrp,
       size:pr.size,
