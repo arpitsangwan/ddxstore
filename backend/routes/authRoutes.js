@@ -19,4 +19,14 @@ router.get('/facebook/redirect',passport.authenticate('facebook'),(req,res)=>{
   
 })
 
+
+router.get('/facebook',passport.authenticate('facebook',{
+  scope:['email']
+}))
+router.get('/facebook/redirect',passport.authenticate('facebook'),(req,res)=>{
+  req.flash('success',`Welcome Back! ${req.user.name}`)
+   res.redirect('/profile');
+  
+})
+
 module.exports = router;

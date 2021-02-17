@@ -4,7 +4,7 @@ const express = require('express')
 const app = express();
 const session=require('express-session');
 const bodyParser = require('body-parser');
-const Review = require('./models/reviewSchema')
+const reviewRoutes=require('./routes/reviewRoutes')
 const Product= require('./models/productSchema');
 const User=require('./models/userSchema')
 const passportSetup = require('./config/passportSetup');
@@ -15,6 +15,9 @@ const sellerRoutes = require('./routes/sellerRoutes');
 const productRoutes = require('./routes/productRoutes')
 const {isLoggedIn}= require('./middleware');
 
+const methodOverride=require('method-override')
+const {isLoggedIn}= require('./middleware');
+app.use(methodOverride('_method'))
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.json()); 
@@ -77,6 +80,8 @@ app.get('/',(req,res)=>{
   res.render('home');
 });
 
+app.use('/products',reviewRoutes)
+
 
 app.post('/new',(req,res)=>{
   let data = req.body;
@@ -90,9 +95,8 @@ app.get('/login',(req,res)=>{
 //   res.render('register')
 // })
 
-app.post('/register',async (req,res)=>{
+// app.post('/register',async (req,res)=>{
   
-  data=req.body;
   console.log(req.body);
   res.send('on the register post page')
   // newUser=new User(data);
@@ -104,29 +108,8 @@ app.post('/register',async (req,res)=>{
   // }
   // res.redirect('/');
  
-  })
-app.get('/logout',(req,res)=>{
-  req.logout();
-  req.flash('success','Successfully Logged out')
-  res.redirect('/')
-})
-app.get('/profile',isLoggedIn,(req,res)=>{
-  if(req.user.isSeller){
-    return res.render('seller/profile');
-  }
-  res.render('user/profile');
-})
+// })
 
-app.post('/products/:id/comment',async (req,res)=>{
-  let {id}=req.params
-  let {text}=req.body
-  let prod= await Product.findById(id)
-  newReview= new Review({review:text})
-  await newReview.save()
-  prod.reviews.push(newReview)
-  await prod.save()
-  res.send(newReview.review)
-})
 app.post('/:id/cart',(req,res)=>{
     let {size,qty}=req.body
     let {id}=req.params
@@ -146,7 +129,7 @@ app.post('/:id/cart',(req,res)=>{
       qty:qty
       })
     }
-    req.flash(Success,'Added to cart')
+    req.flash('success','Added to cart')
     res.redirect('/cart')
 })
 
@@ -158,7 +141,7 @@ app.get('/cart',async (req,res)=>{
   for(let pr of req.session.cartProducts ){
     let temp=await Product.findById(pr.pid)
 
-    let {name,images,mrp}=temp
+     let {productName,images,mrp}=temp
     products.push(
       {name:name,
       image:images[0],
@@ -168,7 +151,7 @@ app.get('/cart',async (req,res)=>{
       })   
   }
    res.render('cart',{products})
-  
+
 })
 app.get('/products',async(req,res)=>{
   let newProduct = await Product.find()
@@ -205,6 +188,7 @@ app.get('/products/:id',async (req,res)=>{
  
 res.render('show',{product});
 })
+
 
     
    
