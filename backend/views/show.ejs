@@ -1,7 +1,7 @@
 <%- include('./partials/header') %>
 <%- include('./partials/navbar') %>
     
-  
+
 
 <div class="container-fluid " >
     <div class="row m-4">
@@ -45,8 +45,8 @@
             <div>
                 <h3 class="mt-5">Reviews</h3>
                
-               <form class='d-flex flex-column' novalidate>
-                   <textarea class='form-control' id='comment' name='comment' rows='3' placeholder="Add review" required></textarea>
+               <form class='d-flex flex-column' >
+                   <textarea class='form-control' id='comment' name='comment' rows='3' placeholder="Add review"></textarea>
                    <input id="hidden" type="hidden" value="<%=product._id %>">
                    <button class='btn btn-secondary mt-1 reviewbtn'>Submit</button>
 
@@ -59,20 +59,27 @@
             <% for(let rev of product.reviews) {%>
                 <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title">Username</h4>
-                      <p class="card-text"><%= rev.review %></p>
-                    </div>
-                </div>
-                <% } %>  
+                      <h4 class="card-title"><%=rev.authorName%></h4>
+                      <p class="card-text" id='<%=rev._id%>'><%= rev.review %></p>
+                        <%if(user && rev.author== user.id){%>
+
+                      <form action="/products/<%=product._id%>/review?revId=<%=rev._id%>&&_method=delete"class= "mx-1" method="post">
+                        <button class="btn btn-danger ">Delete</button>
+                      </form>
+                      <%}%>
+                   </div>
+                      
+               </div>
+                    <% } %> 
+           </div>
+               
 
 
-            </div> 
-
-        </div>
-
+       </div> 
     </div>
 
 </div>
+
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/JS/review.js"></script>
 </body>

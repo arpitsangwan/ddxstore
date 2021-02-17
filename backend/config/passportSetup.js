@@ -48,7 +48,7 @@ passport.use(new GoogleStrategy({
   // console.log(profile); <--this is the profile we recieve from google 
   let foundUser = await User.findOne({email:profile._json.email}); 
   if(foundUser){
-    console.log("already registered user",foundUser);
+   // console.log("already registered user",foundUser);
      return done(null,foundUser);
   }
   let newUser = new User({

@@ -4,14 +4,15 @@ const express = require('express')
 const app = express();
 const session=require('express-session');
 const bodyParser = require('body-parser');
-const Review = require('./models/reviewSchema')
+const reviewRoutes=require('./routes/reviewRoutes')
 const Product= require('./models/productSchema');
 const User=require('./models/userSchema')
 const passportSetup = require('./config/passportSetup');
 const flash=require('express-flash')
 const authRoutes = require('./routes/authRoutes')
+const methodOverride=require('method-override')
 const {isLoggedIn}= require('./middleware');
-
+app.use(methodOverride('_method'))
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.json()); 
@@ -53,6 +54,7 @@ app.use(
 );
 app.use(flash())
 
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use((req,res,next)=>{
@@ -62,6 +64,7 @@ app.use((req,res,next)=>{
 app.use((req,res,next)=>{
   app.locals.success=req.flash('success')
   app.locals.error=req.flash('error')
+  app.locals.user=req.user;
   next();
 })
 
@@ -70,6 +73,8 @@ app.get('/',(req,res)=>{
 });
 
 app.use('/auth',authRoutes)
+app.use('/products',reviewRoutes)
+
 
 app.get('/login',(req,res)=>{
   res.render('login')
@@ -99,16 +104,7 @@ app.get('/logout',(req,res)=>{
 app.get('/profile',isLoggedIn,(req,res)=>{
   res.render('profile');
 })
-app.post('/products/:id/comment',async (req,res)=>{
-  let {id}=req.params
-  let {text}=req.body
-  let prod= await Product.findById(id)
-  newReview= new Review({review:text})
-  await newReview.save()
-  prod.reviews.push(newReview)
-  await prod.save()
-  res.send(newReview.review)
-})
+
 app.post('/:id/cart',(req,res)=>{
     let {size,qty}=req.body
     let {id}=req.params
@@ -128,7 +124,7 @@ app.post('/:id/cart',(req,res)=>{
       qty:qty
       })
     }
-    req.flash(Success,'Added to cart')
+    req.flash('success','Added to cart')
     res.redirect('/cart')
 })
 
@@ -140,7 +136,7 @@ app.get('/cart',async (req,res)=>{
   for(let pr of req.session.cartProducts ){
     let temp=await Product.findById(pr.pid)
 
-    let {productName,images,mrp}=temp
+     let {productName,images,mrp}=temp
     products.push(
       {name:productName,
       image:images[0],
@@ -150,7 +146,7 @@ app.get('/cart',async (req,res)=>{
       })   
   }
    res.render('cart',{products})
-  
+
 })
 app.get('/products',async(req,res)=>{
   let newProduct = await Product.find()
@@ -187,6 +183,7 @@ app.get('/products/:id',async (req,res)=>{
  
 res.render('show',{product});
 })
+
 
     
    

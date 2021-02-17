@@ -11,10 +11,16 @@ const ReviewSchema = new Schema({
   review:{
     type:String,
   },
-  // author:{
-  //   type:mongoose.Schema.Types.ObjectId,
-  //   ref:'User'
-  // },
+    author:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'User',
+      required:true,
+      unique:true
+    },
+   authorName:{
+     type:String,
+     required:true
+   }
   // productId:{
   //   type:mongoose.Schema.Types.ObjectId,
   //   ref:'Product'
