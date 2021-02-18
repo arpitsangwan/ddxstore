@@ -9,6 +9,13 @@ const User = require('../models/userSchema');
 //   },
 //   filename:String
 // })
+const imageSchema = new Schema({
+	url:String,
+	filename:String
+})
+imageSchema.virtual('thumbnail').get(function(){
+	return this.url.replace('/upload','/upload/w_150')
+})
 const StockSchema = mongoose.Schema({
   size:{
     type:String,
@@ -77,9 +84,9 @@ const ProductSchema = new mongoose.Schema({
   //   required:true
   // },
   color:String,
-  images:String, //to be made array
-  Keyword:{
-    type:[String],
+  images:[imageSchema], //to be made array
+  keyword:{
+    type:String,
   },
   brand:String
 })

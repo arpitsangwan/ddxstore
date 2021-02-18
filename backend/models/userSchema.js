@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const OrderSchema=require('./OrderSchema')
-const Seller = require('./sellerSchema')
+const OrderSchema=require('./OrderSchema');
+const Seller = require('./sellerSchema');
+
 const AddressSchema = new Schema({
   fullname:{
     type:String,
@@ -32,13 +33,7 @@ const AddressSchema = new Schema({
   }
 
 })
-const SellerSchema = new Schema({
-  products:[{
-    type:Schema.Types.ObjectId,
-    ref:'Product'
-  }],
-  
-});
+
 
 
 const UserSchema = new Schema({
@@ -67,11 +62,12 @@ const UserSchema = new Schema({
     required:true,
     default:false,
   },
-  seller:[{
+  Seller:{
     type:Schema.Types.ObjectId,
     ref:'Seller'
-  }],
+  },
   
 })
+
 
 module.exports = mongoose.model('user',UserSchema);

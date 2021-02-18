@@ -14,9 +14,8 @@ const userRoutes = require('./routes/userRoutes');
 const sellerRoutes = require('./routes/sellerRoutes');
 const productRoutes = require('./routes/productRoutes')
 const {isLoggedIn}= require('./middleware');
-
 const methodOverride=require('method-override')
-const {isLoggedIn}= require('./middleware');
+
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs');
 
@@ -63,9 +62,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use((req,res,next)=>{
   res.locals.currentUser= req.user;
-  next();
-})
-app.use((req,res,next)=>{
   app.locals.success=req.flash('success')
   app.locals.error=req.flash('error')
   next();
@@ -77,10 +73,20 @@ app.use('/products',productRoutes);
 
 
 app.get('/',(req,res)=>{
+
   res.render('home');
+
 });
 
-app.use('/products',reviewRoutes)
+app.get('/profile',isLoggedIn,async(req,res)=>{
+  if(req.user.isSeller){
+    let foundUser = await User.findById(req.user._id).populate({path:'Seller',populate:{path:'products'}})
+    return res.render('seller/profile',{seller:foundUser.Seller});
+  }
+  res.render('user/profile')
+})
+app.use('/products',reviewRoutes);
+
 
 
 app.post('/new',(req,res)=>{
@@ -91,14 +97,18 @@ app.post('/new',(req,res)=>{
 app.get('/login',(req,res)=>{
   res.render('user/login')
 })
+app.get('/logout',(req,res)=>{
+  req.logout();
+  res.redirect('/');
+})
 // app.get('/register',(req,res)=>{
 //   res.render('register')
 // })
 
 // app.post('/register',async (req,res)=>{
   
-  console.log(req.body);
-  res.send('on the register post page')
+  // console.log(req.body);
+  // res.send('on the register post page')
   // newUser=new User(data);
   // try{
   // await newUser.save();}
@@ -185,8 +195,7 @@ app.get('/women/:category',async (req,res)=>{
 
 app.get('/products/:id',async (req,res)=>{
   const product = await Product.findById(req.params.id).populate('reviews');
- 
-res.render('show',{product});
+  res.render('show',{product});
 })
 
 
