@@ -11,12 +11,13 @@
     <%products.forEach(product=>{%>
 
       <div class="card mx-auto my-4 " style="width: 25%;">
-        <img src="<%=product.images[0]%>" class="card-img-top" style="" alt="...">
+        <img src="<%=product.images[0].url%>" class="card-img-top">
         <div class="card-body">
           <p class="card-text"><%=product.Name%></p>
           
         </div>
-        <strong style="font-size: 2rem;">₹<%=product.unitPrice%></strong>
+        <strong style="font-size: 2rem;">₹<%=product.sellingprice%></strong>
+        <s style="font-size: 1.5rem; font">₹<%=product.mrp%></s>
         
         <button class="btn btn-success m-2">Buy</button>
         <a class="btn btn-primary m-2" href="/products/<%=product._id%>">View Details</a>
@@ -26,19 +27,6 @@
     
     
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <%- include('partials/footer')%>

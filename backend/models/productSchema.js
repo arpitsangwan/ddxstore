@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const {User} = require('../models/userSchema');
 
 // const ImageSchema = mongoose.Schema({
 //   url:{
@@ -7,6 +9,13 @@ const mongoose = require('mongoose');
 //   },
 //   filename:String
 // })
+const imageSchema = new Schema({
+	url:String,
+	filename:String
+})
+imageSchema.virtual('thumbnail').get(function(){
+	return this.url.replace('/upload','/upload/w_150')
+})
 const StockSchema = mongoose.Schema({
   size:{
     type:String,
@@ -30,11 +39,11 @@ const ProductSchema = new mongoose.Schema({
     ref:'Review'
     }
   ],
-  productName:{
+  name:{
     type:String,
     required:true
   },
-  productDescription:{
+  description:{
     type:String,
     required:true
   },
@@ -60,10 +69,14 @@ const ProductSchema = new mongoose.Schema({
     required:true,
 
   },
-  // unitPrice:{
-  //   type:Number,
-  //   required:true,
-  // },
+  sellingprice:{
+    type:Number,
+    required:true,
+  },
+  listedBy:{
+    type:Schema.Types.ObjectId,
+    ref:'User'
+  },
   // availableSize:String,
   // availableColor:String,
   // size:{
@@ -71,10 +84,9 @@ const ProductSchema = new mongoose.Schema({
   //   required:true
   // },
   color:String,
-  // discount:String,
-  images:[String],
-  Keyword:{
-    type:[String],
+  images:[imageSchema], //to be made array
+  keyword:{
+    type:String,
   },
   brand:String
 })

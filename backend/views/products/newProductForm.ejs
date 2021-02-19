@@ -1,0 +1,79 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+
+<% categories = ["Tshirts","Shirts","Shoes","Jackets","Lower","Trousers","Sweatshirts"] %>
+
+<div class="container">
+    <form class="needs-validation" action="/seller/products/new" method="POST" novalidate enctype="multipart/form-data" >
+        <div class="form-group">
+          <label for="name">Name of the Product</label>
+          <input class="form-control" name="product[name]" id="name" aria-describedby="emailHelp" required>
+        </div>
+        <div class="form-group">
+          <label>Category</label> 
+        <input class="form-control" name="product[category]" list="categorylist"> 
+        <datalist id="categorylist"> 
+          <%categories.forEach(cat=>{%>
+            <option value=<%=cat%>><%=cat%></option>
+            <%})%>
+        </datalist> 
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <input class="form-control" name="product[gender]" list="genderlist">
+          <datalist id="genderlist">
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="U">Both</option>
+          </datalist>
+        </div>
+
+
+        <div class="form-group">
+          <!-- <input type="file" name="image" id="" multiple> -->
+          <label for="image">Image url</label>
+         <input type="file" name="images" id="images" multiple>
+        </div>
+        <div class="form-group">
+          <label for="brand">Brand Name</label>
+          <input type="text" name="product[brand]" class="form-control" id="brand" required>
+        </div>
+        <div class="form-group">
+          <label for="mrp">MRP</label>
+          <input type="text" name="product[mrp]" class="form-control" id="mrp" required>
+        </div>
+        <div class="form-group">
+          <label for="price">Selling price</label>
+          <input type="text" name="product[sellingprice]" class="form-control" id="price" required>
+        </div>
+        <div class="form-group">
+          <label for="color">Color</label>
+          <input type="text" name="product[color]" class="form-control" id="color" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description of the Product</label>
+            <input  name="product[description]" class="form-control" id="description" cols="30" rows="3" required ></textarea>
+        </div>
+        <div class="input-area form-group" id="divKeywords">
+          <label for="keyword">Keywords</label>
+          <input class="form-control" type="text" id="keyword" name="product[keyword]" placeholder="Enter keyword..." />
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<script src="/javascripts/validateForms.js"></script>
+
+<%- include('../partials/footer') %>

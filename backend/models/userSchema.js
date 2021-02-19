@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const OrderSchema=require('./orderSchema')
+const Seller = require('./sellerSchema');
 const cart=new mongoose.Schema({
   pid:{
     type:mongoose.Schema.Types.ObjectID,
@@ -12,6 +13,8 @@ const cart=new mongoose.Schema({
   mrp:Number,
   image:String
 })
+
+
 const AddressSchema = new Schema({
   fullname:{
     type:String,
@@ -43,6 +46,8 @@ const AddressSchema = new Schema({
 
 })
 
+
+
 const UserSchema = new Schema({
   name:{
     type:String,
@@ -62,14 +67,18 @@ const UserSchema = new Schema({
   orders:[
     {
       type:mongoose.Schema.Types.ObjectId,
-      ref:'OrderSchema'
+      ref:'Order'
     }
   ],
   isSeller:{
     type:Boolean,
     required:true,
     default:false,
-  }
+  },
+  Seller:{
+    type:Schema.Types.ObjectId,
+    ref:'Seller'
+  },
   
 })
 

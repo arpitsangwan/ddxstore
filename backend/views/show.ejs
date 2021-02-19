@@ -7,18 +7,14 @@
     <div class="row m-4">
         <div class="col-8">
             
-            <img src=<%=product.images[0]%> style="max-width: 100%; min-width: 100%; height:auto">
+            <img src=<%=product.images[0].url%> style="max-width: 100%; min-width: 100%; height:auto">
         </div>
         <div class="col-4 ">
            
-            <p class=display-4><%=product.productName%></p>
+            <p class=display-4><%=product.name%></p>
             <p class="" style="font-size: 1.7rem; font-weight: lighter;">₹<%=product.mrp%></p>
             <form action='/<%=product._id%>/cart' method='post'>
-                <input type='hidden' name='mrp' value=<%=product.mrp%> >
                 <input type='hidden' name='name' value=<%=product.productName%> >
-
-                <input type='hidden' name='image' value=<%=product.images[0]%> >
-
                 <label for='size'>Size</label>
                 <select name='size'>
                 <%product.stocks.forEach(s=>{%>
@@ -45,7 +41,7 @@
             </form>
             
             <div>
-               <p> <%=product.productDescription%> </p>
+               <p> <%=product.description%> </p>
             </div>
             <div>
                 <h3 class="mt-5">Reviews</h3>
@@ -66,7 +62,7 @@
                     <div class="card-body">
                       <h4 class="card-title"><%=rev.authorName%></h4>
                       <p class="card-text" id='<%=rev._id%>'><%= rev.review %></p>
-                        <%if(user && rev.author== user.id){%>
+                        <%if(currentUser && rev.author== currentUser.id){%>
 
                       <form action="/products/<%=product._id%>/review?revId=<%=rev._id%>&&_method=delete"class= "mx-1" method="post">
                         <button class="btn btn-danger ">Delete</button>

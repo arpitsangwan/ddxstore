@@ -5,9 +5,7 @@ const Product=require('../models/productSchema')
 const {isLoggedIn}=require('../middleware')
 const myError=require('../utils/myerror.js')
 const isOwner= async (req,res,next)=>{
-  let review=await Review.findById(req.query.revId)
-  
-  
+  let review=await Review.findById(req.query.revId)  
   let {id}=req.params
   if(review){
     if(review.author.equals(req.user._id)){

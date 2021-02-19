@@ -39,10 +39,11 @@ router.post('/',async (req,res)=>{
     let amt=0;
 
     for(let pr of products){
-        amt+=parseInt(pr.mrp)*parseInt(pr.qty)
+        let product=await Product.findById(pr.pid)
+        amt+=parseInt(product.sellingprice)*parseInt(pr.qty)
     }
-    let {id}=req.body
-    let data=await Product.findById(id)
+/*     let {id}=req.body
+    let data=await Product.findById(id) */
     var options = {  
         amount: amt*100,  // amount in the smallest currency unit 
         currency: "INR",
