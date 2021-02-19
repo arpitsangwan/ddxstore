@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const User = require('./userSchema')
+const {User} = require('./userSchema')
 
 const OrderSchema = new Schema({
   user: {
@@ -19,16 +19,16 @@ const OrderSchema = new Schema({
   // },
   orderItems: [
     {
-      name: { type: String, required: true },
+      /* name: { type: String, required: true },
       qty: { type: Number, required: true },
       image: { type: String, required: true },
-      price: { type: Number, required: true },
-      product: {
+      price: { type: Number, required: true }, */
+      
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Product',
-      },
-    },
+     // },
+    }
   ],
   paymentId: {
     type: String

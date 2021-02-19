@@ -6,13 +6,14 @@ const session=require('express-session');
 const bodyParser = require('body-parser');
 const reviewRoutes=require('./routes/reviewRoutes')
 const Product= require('./models/productSchema');
-const User=require('./models/userSchema')
+const {User}=require('./models/userSchema')
 const passportSetup = require('./config/passportSetup');
 const flash=require('express-flash')
 const authRoutes = require('./routes/authRoutes')
 const methodOverride=require('method-override')
 const {isLoggedIn}= require('./middleware');
 const paymentRoutes=require('./routes/paymentRoutes')
+const {Cart}=require('./models/userSchema')
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs');
 
@@ -68,7 +69,7 @@ app.use((req,res,next)=>{
   app.locals.user=req.user;
   next();
 })
-app.use('/buy',paymentRoutes)
+app.use('/buy',isLoggedIn,paymentRoutes)
 app.get('/',(req,res)=>{
   res.render('home');
 });
@@ -106,50 +107,72 @@ app.get('/profile',isLoggedIn,(req,res)=>{
   res.render('profile');
 })
 
-app.post('/:id/cart',(req,res)=>{
-    let {size,qty,mrp}=req.body
+app.post('/:id/cart',async (req,res)=>{
+    let {size,qty,mrp,image,name}=req.body
     let {id}=req.params
+    const prod=await Product.findById(id)
+    if(!req.isAuthenticated()){
     if(!req.session.cartProducts){
       req.session.cartProducts=[{
+        name:name,
         pid:id,
         size:size,
         qty:qty,
-        mrp:mrp
+        mrp:prod.mrp,
+        image:prod.images[0]
       }]
       
     }
   else{
     req.session.cartProducts.push(
       { 
+      name:name,
       pid:id,
       size:size,
       qty:qty,
-      mrp:mrp
+      mrp:prod.mrp,
+      image:prod.images[0]
       })
+    }}
+    else{
+     let user= await User.findById(req.user.id)
+     let cart=await new Cart({pid:id,name,qty,size,mrp:prod.mrp,image:prod.images[0]})
+      user.cartProducts.push(cart)
+     await user.save()
+     //console.log(user)
     }
     req.flash('success','Added to cart')
     res.redirect('/cart')
 })
 
 app.get('/cart',async (req,res)=>{
-  const products=[]
-  if(!req.session.cartProducts){
-    return res.send("Cart is empty");
-  }
-  for(let pr of req.session.cartProducts ){
-    let temp=await Product.findById(pr.pid)
+  if(req.isAuthenticated()){
+   let user=await User.findById(req.user.id);
+   if(user.cartProducts && user.cartProducts.length){ 
+   return  res.render('cartauth',{user})
+   }
+    return res.send("empty cart")
 
-     let {productName,images,mrp}=temp
-    products.push(
+  }
+  else{
+    const products=[]
+    if(!req.session.cartProducts){
+    return res.send("Cart is empty");
+    }
+    for(let pr of req.session.cartProducts ){
+      let temp=await Product.findById(pr.pid)
+      let {productName,images,mrp}=temp
+      products.push(
       {id:pr.pid,
       name:productName,
-      image:images[0],
+      image:pr.image,
       mrp:mrp,
       size:pr.size,
       qty:pr.qty
       })   
+    }
+    res.render('cart',{products})
   }
-   res.render('cart',{products})
 
 })
 app.get('/products',async(req,res)=>{

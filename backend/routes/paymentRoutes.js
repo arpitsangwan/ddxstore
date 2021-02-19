@@ -4,7 +4,7 @@ const Razorpay=require('razorpay')
 const Product=require('../models/productSchema')
 const Order=require('../models/orderSchema')
 const crypto = require("crypto");
-const User=require('../models/userSchema')
+const {User}=require('../models/userSchema')
 
 
 const checkSignature=(req,res,next)=>{
@@ -34,11 +34,12 @@ router.get('/payment',(req,res)=>{
 })
 
 router.post('/',async (req,res)=>{
-    let products=req.session.cartProducts;
+    let user=await User.findById(req.user.id)
+    let products=user.cartProducts;
     let amt=0;
 
     for(let pr of products){
-        amt+=parseInt(pr.mrp)
+        amt+=parseInt(pr.mrp)*parseInt(pr.qty)
     }
     let {id}=req.body
     let data=await Product.findById(id)
@@ -51,19 +52,22 @@ router.post('/',async (req,res)=>{
         //console.log(order)
         req.session.orderId=order.id
         let orderPlaced=await new Order({user:req.user,orderId:order.id,totalPrice:amt})
+        for(let pr of req.user.cartProducts){
+        orderPlaced.orderItems.push(pr.pid)
+        }
         let orderSaved=await orderPlaced.save()
         res.render('checkout',{order:orderSaved})
     });
     
 })
 router.post('/payment/success/',checkSignature,async (req,res)=>{
-
-   let order= await Order.findOneAndUpdate({orderId:req.body.razorpay_order_id},{paymentId:req.body.razorpay_payment_id,signature:req.body.razorpay_signature,isPaid:true},{new:true,useFindAndModify:false})
+    let {razorpay_order_id,razorpay_payment_id,razorpay_signature}=req.body
+   let order= await Order.findOneAndUpdate({orderId:razorpay_order_id},{paymentId:razorpay_payment_id,signature:razorpay_signature,isPaid:true},{new:true,useFindAndModify:false})
    //console.log(order)
    let user=await User.findById(req.user.id)
    user.orders.push(order)
+   user.cartProducts=[];
    await user.save()
-    console.log(user)
     req.flash('success',"Order Placed")
     res.redirect('/products')
 })
