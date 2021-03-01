@@ -195,8 +195,7 @@ app.get('/cart',async (req,res)=>{
       qty:pr.qty
       })   
     }
-    res.render('cart',{products})
-  }
+ res.render('cart',{products}) }
 
 })
 app.put('/cart', async (req,res)=>{

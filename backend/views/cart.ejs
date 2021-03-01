@@ -1,23 +1,24 @@
-<%-include('partials/header')%>
+ <%-include('partials/header')%>
 <%-include('partials/navbar')%>
-<link rel='stylesheet' type='text/css' href='/stylesheets/cart.css'>
+ <link rel='stylesheet' type='text/css' href='/stylesheets/cart.css'>
 <div class='container'>
 <form action="/buy" method='post'>
-
-<div class="container">
+  <%if(currentUser){ %>
+  <div class="container">
   <h2>Shipping Address</h2>
-  <%if(currentUser.address){
+  <%if(currentUser.address){ %>
     <p><%=currentUser.address%></p>
     <a class="btn btn-primary" href="/user/address/edit">Edit</a>
-  <%}else{%>
+  <%} else {%>
     <p>Please Add Shipping Address to Continue</p>
     <a href="/user/address/new">Add Shipping Address</a>
   <%}%>
 </div>
- 
-<h1 class='mb-5'>Shopping Cart</h1>
+<%}%>
 
-<div class="shopping-cart">
+ <h1 class='mb-5'>Shopping Cart</h1>
+
+ <div class="shopping-cart">
 
   <div class="column-labels">
     <label class="product-image">Image</label>
@@ -75,6 +76,6 @@
 </form>
 </div>
 
+ <script src='JS/cart.js'></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
 
-<script src='JS/cart.js'></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
