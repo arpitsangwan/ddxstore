@@ -1,0 +1,123 @@
+
+<%-include('partials/header')%>
+<%-include('partials/navbar')%>
+<% categories = ["t-shirts","shirts","shoes","jackets","lower","trousers","sweatshirts"] %>
+
+<link rel="stylesheet" href="/stylesheets/categories.css">
+
+<!-- 
+<input class="variation" id="bluepurple" type="radio" value="1" name="color" checked="checked"/>
+<label for="bluepurple"></label>
+<input class="variation" id="sunset" type="radio" value="2" name="color"/>
+<label for="sunset"></label>
+<input class="variation" id="godiva" type="radio" value="3" name="color"/>
+<label for="godiva"></label>
+<input class="variation" id="dark" type="radio" value="4" name="color"/>
+<label for="dark"></label>
+<input class="variation" id="pinkaru" type="radio" value="5" name="color"/> -->
+<label for="pinkaru"></label>
+<main>
+  <section class="results-header">
+    <h1>Products</h1>
+    <div class="results-header__option">
+      <div class="option__button option--grid selected"><span></span><span></span><span></span><span></span><span>Grid</span></div>
+      <div class="option__button option--list"><span></span><span></span><span></span><span>List</span></div>
+    </div>
+  </section>
+  <div class="filter-section__wrapper">
+    <section class="filter-section">
+      <h6>Filters</h6>
+      <div class="filters">
+        <h5 class="filters__title">Categories</h5>
+        <%categories.forEach(cat=>{%>
+          <div class="filters__item">
+            <div class="cat_options">
+                <a class="w-100" href="/products/category/<%=cat%> " id="checkbox-<%=cat%>" >
+                 <%=cat%>
+                </a>
+              
+              
+                <!-- <div class="tooltip top" data-tooltip="Younger than 18 months."><span><i class="icon-info"></i></span></div> -->
+              </label>
+            </div>
+            <!-- <span class="badge status-primary">10</span> -->
+          </div>
+        <%})%>
+
+        
+        <!-- <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-2" type="checkbox" checked="checked"/>
+            <label for="checkbox-2">Young<span class="box"></span></label>
+          </div><span class="badge status-primary">5</span>
+        </div> -->
+      </div>
+      <div class="filters">
+        <h5 class="filters__title">Dog Size</h5>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-5" type="checkbox"/>
+            <label for="checkbox-5">Small<span class="box"></span></label>
+          </div><span class="badge status-primary">9</span>
+        </div>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-6" type="checkbox" checked="checked"/>
+            <label for="checkbox-6">Medium<span class="box"></span></label>
+          </div><span class="badge status-primary">12</span>
+        </div>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-7" type="checkbox"/>
+            <label for="checkbox-7">Large<span class="box"></span></label>
+          </div><span class="badge status-primary">17</span>
+        </div>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-8" type="checkbox"/>
+            <label for="checkbox-8">XL<span class="box"></span></label>
+          </div><span class="badge status-primary">3</span>
+        </div>
+      </div>
+    </section>
+  </div>
+  <section class="results-section results--grid">
+    <%products.forEach(product=>{%>
+      <div class="profile">
+        <div class="profile__image"><img src="<%=product.images[0].url%>" alt="Doggo"/></div>
+        <div class="profile__info">
+          <h3><%=product.name.substring(0,15)%></h3>
+          <p class="profile__info__extra"><%=product.description.substring(0,30)%></p>
+        </div>
+        <!-- <div class="profile__stats">
+          <p class="profile__stats__title">Category</p>
+          <h5 class="profile__stats__info"><%=product.category%></h5>
+        </div> -->
+        
+        <div class="profile__stats">
+          <p class="profile__stats__title">Price</p>
+          <h5 style="color: #878787; font-size: 1.5rem; text-decoration: line-through;" class="profile__stats__info d-inline">₹<%=product.mrp%></h5>
+          <h5 class="profile__stats__info d-inline">₹<%=product.sellingprice%></h5>
+        </div>
+
+        <div  class="profile__stats sizes ">
+          <p class="profile__stats__title ">Sizes</p>
+          <%product.stocks.forEach(st=>{%>
+            <h5><%=st.size%></h5>
+          <%})%>
+        </div>
+        <div class="profile__cta"><a href="/products/<%=product._id%>" class="btn btn-primary w-100">View Details</a></div>
+      </div>
+    <%})%>
+  </section>
+</main>
+<footer>
+  <div class="explanation">Part of the  <a href="https://codepen.io/collection/DQvYpQ" target="_blank">CSS Grid collection here</a>.  <a href="https://codepen.io/oliviale/full/mgWjpq" target="_blank">Part I</a> •  <a href="https://codepen.io/oliviale/full/WqwOzv" target="_blank">Part II</a> • <a href="https://codepen.io/oliviale/full/GbmyYx" target="_blank">Part III</a></div>
+  <div class="social"><a href="https://twitter.com/meowlivia_" target="_blank"><i class="icon-social-twitter icons"></i></a><a href="https://github.com/oliviale" target="_blank"><i class="icon-social-github icons"></i></a><a href="https://dribbble.com/oliviale" target="_blank"><i class="icon-social-dribbble icons"></i></a></div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="javascripts/categories.js"></script>
+
+
+<%-include('partials/footer')%>

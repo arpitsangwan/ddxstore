@@ -34,6 +34,9 @@ router.get('/payment',(req,res)=>{
 })
 
 router.post('/',async (req,res)=>{
+    if(!req.user.address){
+        res.redirect('/user/address/new');
+    }
     let user=await User.findById(req.user.id)
     let products=user.cartProducts;
     let amt=0;
@@ -52,7 +55,7 @@ router.post('/',async (req,res)=>{
     instance.orders.create(options,async (err, order)=> { 
         //console.log(order)
         req.session.orderId=order.id
-        let orderPlaced=await new Order({user:req.user,orderId:order.id,totalPrice:amt})
+        let orderPlaced= new Order({user:req.user,orderId:order.id,totalPrice:amt,address:req.user.address});
         for(let pr of req.user.cartProducts){
         orderPlaced.orderItems.push({prid:pr.pid,qty:pr.qty})
         }

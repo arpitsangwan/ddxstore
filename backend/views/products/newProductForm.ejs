@@ -2,7 +2,7 @@
 <%- include('../partials/navbar') %>
 
 
-<% categories = ["Tshirts","Shirts","Shoes","Jackets","Lower","Trousers","Sweatshirts"] %>
+<% categories = ["t-shirts","shirts","shoes","jackets","lower","trousers","sweatshirts"] %>
 
 <div class="container">
     <form class="needs-validation" action="/seller/products/new" method="POST" novalidate enctype="multipart/form-data" >
@@ -11,28 +11,61 @@
           <input class="form-control" name="product[name]" id="name" aria-describedby="emailHelp" required>
         </div>
         <div class="form-group">
-          <label>Category</label> 
-        <input class="form-control" name="product[category]" list="categorylist"> 
-        <datalist id="categorylist"> 
+          <label for="category">Category</label> 
+          <select class="form-control" name="product[category]" id="category" >
+            <option value="-1">
+            Select
+            </option>
           <%categories.forEach(cat=>{%>
             <option value=<%=cat%>><%=cat%></option>
             <%})%>
-        </datalist> 
+          </select> 
         </div>
         <div class="form-group">
           <label for="gender">Gender</label>
-          <input class="form-control" name="product[gender]" list="genderlist">
-          <datalist id="genderlist">
+          <select class="form-control" name="product[gender]" id="gender" >
+            <option value="-1">
+            Select
+            </option>
             <option value="M">Male</option>
             <option value="F">Female</option>
             <option value="U">Both</option>
-          </datalist>
+        </select>
         </div>
+        <div>
 
+        </div>
+        <div>
+          <h4><b>Add Stock for Each Size</b></h4>
+            <div class="table-responsive">
+              <table id="test-table" class="table table-condensed">
+                <thead>
+                  <tr>
+                    <th>Size</th>
+                    <th>Stock Available</th>
+                  </tr>
+                </thead>
+                <tbody id="test-body">
+                  <tr id="row0">
+                    <td>
+                      <input name='stocks[0][size]' placeholder="S,M,L,XL,XXL ..." type='text' class='form-control' />
+                    </td>
+                    <td>
+                      <input name='stocks[0][units]' placeholder="500" type='text' class='form-control input-md' />
+                    </td>
+                    <td>
+                      <input class='delete-row btn btn-primary' type='button' value='Delete' />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input id='add-row' class='btn btn-primary mb-3' type='button' value='Add' />
+            </div>
+            </div>
 
         <div class="form-group">
           <!-- <input type="file" name="image" id="" multiple> -->
-          <label for="image">Image url</label>
+          <label for="image">Images</label>
          <input type="file" name="images" id="images" multiple>
         </div>
         <div class="form-group">
@@ -72,8 +105,8 @@
 
 
 
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="/javascripts/addStocksBtn.js"></script>
 <script src="/javascripts/validateForms.js"></script>
 
 <%- include('../partials/footer') %>

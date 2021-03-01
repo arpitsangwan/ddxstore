@@ -21,7 +21,7 @@ const StockSchema = mongoose.Schema({
     type:String,
     required:true
   },
-  stock:{
+  units:{
     type:Number,
     required:true,
     default:0
@@ -54,7 +54,7 @@ const ProductSchema = new mongoose.Schema({
   },
   category:{
     type:String,
-    enum:["Tshirts","Shirts","Shoes","Jackets","Lower","Trousers","Sweatshirts"],
+    enum:["t-shirts","shirts","shoes","jackets","lower","trousers","sweatshirts"],
     required:true
   },
   gender:{
@@ -73,10 +73,10 @@ const ProductSchema = new mongoose.Schema({
     type:Number,
     required:true,
   },
-  listedBy:{
-    type:Schema.Types.ObjectId,
-    ref:'User'
-  },
+  // listedBy:{
+  //   type:Schema.Types.ObjectId,
+  //   ref:'User'
+  // },
   // availableSize:String,
   // availableColor:String,
   // size:{
@@ -88,7 +88,11 @@ const ProductSchema = new mongoose.Schema({
   keyword:{
     type:String,
   },
-  brand:String
+  brand:String,
+  listedOn:{
+    type:Date,
+    default:Date.now()
+  }
 })
 
 module.exports = mongoose.model('Product',ProductSchema);

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const OrderSchema=require('./orderSchema')
-const Seller = require('./sellerSchema');
-const cart=new mongoose.Schema({
+// const Seller = require('./sellerSchema');
+const Cart=new mongoose.Schema({
   pid:{
     type:mongoose.Schema.Types.ObjectID,
     ref:'Product'
@@ -53,7 +53,7 @@ const UserSchema = new Schema({
     type:String,
     required:true
   },
-  cartProducts:[cart],
+  cartProducts:[Cart],
   email:{
     type:String,
     unique:true,
@@ -63,7 +63,7 @@ const UserSchema = new Schema({
     type:String,
     default:'https://image.shutterstock.com/image-vector/man-avatar-profile-male-face-600w-471975115.jpg'
   },
-  address:[AddressSchema],
+  address:AddressSchema,
   orders:[
     {
       type:mongoose.Schema.Types.ObjectId,
@@ -75,12 +75,12 @@ const UserSchema = new Schema({
     required:true,
     default:false,
   },
-  Seller:{
-    type:Schema.Types.ObjectId,
-    ref:'Seller'
-  },
+  // Seller:{
+  //   type:Schema.Types.ObjectId,
+  //   ref:'Seller'
+  // },
   
 })
 
-module.exports.User = mongoose.model('user',UserSchema);
-module.exports.Cart=mongoose.model('Cart',cart)
+module.exports.User = mongoose.model('User',UserSchema);
+module.exports.Cart=mongoose.model('Cart',Cart)

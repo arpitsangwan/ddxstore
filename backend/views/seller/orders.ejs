@@ -1,0 +1,42 @@
+<%-include('../partials/header')%>
+<%-include('../partials/navbar')%>
+
+<div class="container">
+
+  <table class="table">
+    <tr class="table-active">
+      <th>Image</th>
+      <th>Name</th>
+      <th>Is Delivered</th>
+      <th>Change delivery Status</th>
+      <th>Show more</th>
+
+    </tr>
+    
+    <%orders.forEach(or=>{%>
+      <tr class="table-primary ">
+        <td><%=or._id%></td>
+        <td><%=or.user%></td>
+        <td>
+          <%=or.isDelivered?"✔️":"❌"%>
+        </td>
+        <td>
+          <form  action="/seller/orders/<%=or._id%>/?_method=PATCH" method="POST">
+            <button class="btn btn-primary">
+              Toggle
+            </button>
+          </form>
+        </td>
+        <td>
+          <a class="btn btn-info" href="/seller/orders/<%=or._id%>">
+            Details
+          </a>
+        </td>
+     </tr>
+    <%})%>
+    
+  </table>
+
+</div>
+
+<%-include('../partials/footer')%>
