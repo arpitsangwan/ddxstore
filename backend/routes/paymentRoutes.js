@@ -54,13 +54,16 @@ router.post('/',async (req,res)=>{
         req.session.orderId=order.id
         let orderPlaced=await new Order({user:req.user,orderId:order.id,totalPrice:amt})
         for(let pr of req.user.cartProducts){
-        orderPlaced.orderItems.push(pr.pid)
+        orderPlaced.orderItems.push({prid:pr.pid,qty:pr.qty})
         }
+        console.log(orderPlaced)
+
         let orderSaved=await orderPlaced.save()
         res.render('checkout',{order:orderSaved})
     });
     
 })
+
 router.post('/payment/success/',checkSignature,async (req,res)=>{
     let {razorpay_order_id,razorpay_payment_id,razorpay_signature}=req.body
    let order= await Order.findOneAndUpdate({orderId:razorpay_order_id},{paymentId:razorpay_payment_id,signature:razorpay_signature,isPaid:true},{new:true,useFindAndModify:false})

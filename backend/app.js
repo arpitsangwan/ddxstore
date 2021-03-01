@@ -94,7 +94,6 @@ app.use('/products',reviewRoutes);
 
 app.post('/new',(req,res)=>{
   let data = req.body;
-  console.log(req.body);
   res.send('recieved');
 })
 app.get('/login',(req,res)=>{
@@ -129,7 +128,9 @@ app.post('/:id/cart',async (req,res)=>{
     const prod=await Product.findById(id)
     if(!req.isAuthenticated()){
     if(!req.session.cartProducts){
+      req.session.count=1;
       req.session.cartProducts=[{
+        id:req.session.count,
         name:name,
         pid:id,
         size:size,
@@ -140,8 +141,10 @@ app.post('/:id/cart',async (req,res)=>{
       
     }
   else{
+    req.session.count++;
     req.session.cartProducts.push(
       { 
+      id:req.session.count,
       name:name,
       pid:id,
       size:size,
@@ -155,7 +158,6 @@ app.post('/:id/cart',async (req,res)=>{
      let cart=await new Cart({pid:id,name,qty,size,mrp:prod.sellingprice,image:prod.images[0].url})
       user.cartProducts.push(cart)
      await user.save()
-     //console.log(user)
     }
     req.flash('success','Added to cart')
     res.redirect('/cart')
@@ -165,21 +167,21 @@ app.get('/cart',async (req,res)=>{
   if(req.isAuthenticated()){
    let user=await User.findById(req.user.id);
    if(user.cartProducts && user.cartProducts.length){ 
-   return  res.render('cartauth',{user})
+   return  res.render('cart',{products:user.cartProducts})
    }
-    return res.send("empty cart")
-
+   return res.render('emptycart')
   }
   else{
     const products=[]
-    if(!req.session.cartProducts){
-    return res.send("Cart is empty");
+    if(!req.session.cartProducts || !req.session.cartProducts.length ){
+    return res.render("emptycart");
     }
     for(let pr of req.session.cartProducts ){
       let temp=await Product.findById(pr.pid)
       let {productName,images,sellingprice}=temp
       products.push(
-      {id:pr.pid,
+      {
+      id:pr.id,
       name:productName,
       image:images[0].url,
       mrp:sellingprice,
@@ -191,17 +193,57 @@ app.get('/cart',async (req,res)=>{
   }
 
 })
+app.put('/cart', async (req,res)=>{
+  let {id,qty}=req.body;
+  if(req.isAuthenticated() ){
+  let user=await User.findById(req.user.id);
+  for(let pr of user.cartProducts){
+    
+    if(pr._id==id){
+      pr.qty=qty;
+    }
+  }
+  await user.save()
+return res.send('done')
+  }
+  else{
+    for (let pro of req.session.cartProducts){
+        if(id == pro.id){
+          pro.qty=qty;
+        }
+    }
+    res.send('done');
+  }
+})
+app.post('/cart/delete',async (req,res)=>{
+  let {id}=req.body;
+  if(req.isAuthenticated()){
+  let user = await User.updateOne({ _id: req.user.id }, { "$pull": { "cartProducts": { "_id": id } }}, { new:true }); 
+  }
+  else{
+     req.session.cartProducts = req.session.cartProducts.filter((item) => item.id != id);
+  }
+
+  res.send('deleted')
+
+
+})
+
 app.get('/products',async(req,res)=>{
   let newProduct = await Product.find()
   res.render('products',{products:newProduct});
 })
 
 app.get('/search',async(req,res)=>{
-   let {searchterm}= req.query
-   let products = await Product.find({Keyword:searchterm})
+   let {q}= req.query
+   let products = await Product.find({Keyword:q})
   res.render('products',{products});
 })
-
+app.get('/search',async(req,res)=>{
+  let {searchterm}= req.query
+  let products = await Product.find({Keyword:searchterm})
+ res.render('products',{products});
+})
 app.get('/products/men',async (req,res)=>{
   let products = await Product.find({gender:"M"});
   res.send(products);
