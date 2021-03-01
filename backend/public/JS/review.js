@@ -1,4 +1,4 @@
-  let btn= document.querySelector('.reviewbtn')
+let btn= document.querySelector('.reviewbtn')
   let pid=document.querySelector('#hidden').value
 
   function addReview(data){
@@ -75,4 +75,3 @@
        }
       
     })
-   

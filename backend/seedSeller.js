@@ -13,7 +13,7 @@ mongoose.connect(dbUrl,{
   console.log("Something went wrong while connecting to the database "+ err);
 })
 
-let email= 'arpitsangwan3@gmail.com';
+let email= 'yadavification@gmail.com';
 
 let makeAdmin = async(email)=>{
   let foundUser = await User.findOne({email:email});

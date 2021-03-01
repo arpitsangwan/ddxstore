@@ -44,7 +44,7 @@ const isOwner= async (req,res,next)=>{
     }
 
     let prod= await Product.findById(id)
-    
+    console.log('first product',prod)
     if(!prod){
       req.flash('error',"Can not find product")
 
@@ -55,8 +55,11 @@ const isOwner= async (req,res,next)=>{
       req.flash('error',"Only one review per user allowed")
       throw new myError('Only one review per user allowed',401)
     })
+    console.log('saved reivew is ',reviewSaved);
     prod.reviews.push(reviewSaved)
-    await prod.save()
+    console.log(prod); //kam kr raha hai 
+    let savedproduct = await prod.save();
+    console.log('saved product is ',savedproduct);
     res.send(reviewSaved)
   }
   catch(error){

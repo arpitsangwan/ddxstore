@@ -69,9 +69,10 @@ app.use((req,res,next)=>{
   next();
 })
 app.use('/buy',isLoggedIn,paymentRoutes)
-
+app.use('/products',reviewRoutes);
 app.use('/auth',authRoutes);
 app.use('/seller',sellerRoutes);
+app.use('/user',userRoutes);
 app.use('/products',productRoutes);
 
 
@@ -83,14 +84,19 @@ app.get('/',(req,res)=>{
 
 app.get('/profile',isLoggedIn,async(req,res)=>{
   if(req.user.isSeller){
-    let foundUser = await User.findById(req.user._id).populate({path:'Seller',populate:{path:'products'}})
-    return res.render('seller/profile',{seller:foundUser.Seller});
+    let products = await Product.find({});
+    return res.render('seller/profile',{products});
   }
-  res.render('user/profile')
+  else{
+    res.render('user/profile')
+  }
+  
 })
-app.use('/products',reviewRoutes);
 
 
+app.get('/test',(req,res)=>{
+  res.render('categories')
+})
 
 app.post('/new',(req,res)=>{
   let data = req.body;
@@ -104,6 +110,7 @@ app.get('/logout',(req,res)=>{
   req.logout();
   res.redirect('/');
 })
+
 // app.get('/register',(req,res)=>{
 //   res.render('register')
 // })
@@ -130,29 +137,29 @@ app.post('/:id/cart',async (req,res)=>{
     if(!req.isAuthenticated()){
     if(!req.session.cartProducts){
       req.session.cartProducts=[{
-        name:name,
+        name:prod.name,
         pid:id,
         size:size,
         qty:qty,
         mrp:prod.sellingprice,
-        image:prod.images[0].url
+        image:prod.images[0].thumbnail
       }]
       
     }
   else{
     req.session.cartProducts.push(
       { 
-      name:name,
+      name:prod.name,
       pid:id,
       size:size,
       qty:qty,
       mrp:prod.sellingprice,
-      image:prod.images[0].url
+      image:prod.images[0].thumbnail
       })
     }}
     else{
      let user= await User.findById(req.user.id)
-     let cart=await new Cart({pid:id,name,qty,size,mrp:prod.sellingprice,image:prod.images[0].url})
+     let cart=await new Cart({pid:id,name:prod.name,qty,size,mrp:prod.sellingprice,image:prod.images[0].thumbnail})
       user.cartProducts.push(cart)
      await user.save()
      //console.log(user)
@@ -168,7 +175,6 @@ app.get('/cart',async (req,res)=>{
    return  res.render('cartauth',{user})
    }
     return res.send("empty cart")
-
   }
   else{
     const products=[]
@@ -177,11 +183,11 @@ app.get('/cart',async (req,res)=>{
     }
     for(let pr of req.session.cartProducts ){
       let temp=await Product.findById(pr.pid)
-      let {productName,images,sellingprice}=temp
+      let {name,images,sellingprice}=temp
       products.push(
       {id:pr.pid,
-      name:productName,
-      image:images[0].url,
+      name:name,
+      image:images[0].thumbnail,
       mrp:sellingprice,
       size:pr.size,
       qty:pr.qty
@@ -192,13 +198,14 @@ app.get('/cart',async (req,res)=>{
 
 })
 app.get('/products',async(req,res)=>{
-  let newProduct = await Product.find()
-  res.render('products',{products:newProduct});
+  let newProduct = await Product.find();
+  res.render('categories',{products:newProduct});
 })
 
 app.get('/search',async(req,res)=>{
-   let {searchterm}= req.query
-   let products = await Product.find({Keyword:searchterm})
+  let {searchterm}= req.query
+
+  let products = await Product.find({Keyword:searchterm})
   res.render('products',{products});
 })
 
@@ -212,14 +219,11 @@ app.get('/products/women',async (req,res)=>{
 })
 
 
-app.get('/men/:category',async (req,res)=>{
-  let category = await Product.find({gender:"M",category:req.params.category});
-  res.send(category);
-})
-app.get('/women/:category',async (req,res)=>{
-  let category = await Product.find({gender:"W",category:req.params.category});
-  res.send(category);
-})
+
+// app.get('/women/:category',async (req,res)=>{
+//   let category = await Product.find({gender:"W",category:req.params.category});
+//   res.send(category);
+// })
 
 app.get('/products/:id',async (req,res)=>{
   const product = await Product.findById(req.params.id).populate('reviews');

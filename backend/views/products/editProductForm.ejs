@@ -2,7 +2,7 @@
 <%- include('../partials/navbar') %>
 
 
-<% categories = ["Tshirts","Shirts","Shoes","Jackets","Lower","Trousers","Sweatshirts"] %>
+<% categories = ["t-shirts","shirts","shoes","jackets","lower","trousers","sweatshirts"] %>
 
 <div class="container">
     <form class="needs-validation" action="/seller/products/<%=product._id%>?_method=PATCH"  method="POST" novalidate enctype="multipart/form-data" >
@@ -10,23 +10,28 @@
           <label for="name">Name of the Product</label>
           <input class="form-control" name="product[name]" value="<%=product.name%>" id="name" aria-describedby="emailHelp" required>
         </div>
+      
         <div class="form-group">
-          <label>Category</label> 
-        <input class="form-control" name="product[category]" value="<%=product.category%>" list="categorylist"> 
-        <datalist id="categorylist"> 
+          <label for="category">Category</label> 
+          <select class="form-control" name="product[category]" id="category" >
+            <option value="<%=product.category%>">
+              <%=product.category%>
+            </option>
           <%categories.forEach(cat=>{%>
             <option value=<%=cat%>><%=cat%></option>
             <%})%>
-        </datalist> 
+          </select> 
         </div>
         <div class="form-group">
           <label for="gender">Gender</label>
-          <input class="form-control" name="product[gender]" value="<%=product.gender%>" list="genderlist">
-          <datalist id="genderlist">
+          <select class="form-control" name="product[gender]" id="gender" >
+            <option value="<%=product.gender%>">
+              <%=product.gender%>
+            </option>
             <option value="M">Male</option>
             <option value="F">Female</option>
             <option value="U">Both</option>
-          </datalist>
+        </select>
         </div>
 
 
