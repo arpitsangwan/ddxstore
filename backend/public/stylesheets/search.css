@@ -1,0 +1,40 @@
+
+.searchResults{
+    max-height:50vh;
+    width:95%;
+    z-index: 1;
+    background-color:white;
+    position:absolute;
+    top:35px;
+    overflow:auto;
+    box-sizing:border-box;
+}
+
+.searchResults .card{
+    border:0px;
+    cursor:pointer;
+    margin-top:10px;
+    box-sizing: border-box;
+}
+.searchResults .card img{
+    width:100%;
+    height:auto;
+    max-height:200px;
+    border-radius: 10%;
+    margin:0px 5px;
+    box-sizing: border-box;
+
+}
+ .card:hover {
+    box-shadow: 0px 2px 24px 0px rgba(153, 153, 153, 0.616);
+
+}
+.searchResults .card-body {
+    text-align:left;
+}
+.searchResults .card-body h4 {
+    font-weight:600;
+}
+
+
+

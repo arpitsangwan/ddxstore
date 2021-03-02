@@ -32,7 +32,6 @@ async (accessToken,refreshToken,profile,done)=>{
      email:email
    })
    let userCreated=await newUser.save()
-   console.log(userCreated);
    done(null,userCreated) 
  }
 }))

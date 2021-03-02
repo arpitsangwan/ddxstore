@@ -50,7 +50,6 @@ async function updateQuantity(quantityInput)
   var quantity = $(quantityInput).val();
   var linePrice = price * quantity;
     let res =await axios.put('/cart',{id:productRow.attr('id'),qty:quantity})
-    console.log(res.data)
   /* Update line price display and recalc cart totals */
   productRow.children('.product-line-price').each(function () {
     $(this).fadeOut(fadeTime, function() {
