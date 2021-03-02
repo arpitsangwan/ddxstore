@@ -1,24 +1,90 @@
 <%-include('../partials/header')%>
 <%-include('../partials/navbar')%>
 
-<div class="container">
+<link rel="stylesheet" type="" href="http://localhost:3000/stylesheets/orders.css">
 
-  <table class="table">
-    <tr class="table-active">
-      <th>Image</th>
-      <th>Name</th>
-      <th>Is Delivered</th>
-      <th>Change delivery Status</th>
-      <th>Show more</th>
 
-    </tr>
+<div class="container mt-3 mt-md-5">
+  <h2 class="text-charcoal hidden-sm-down">Your Orders</h2>
+  <!-- <h5 class="text-charcoal hidden-md-up">Your Orders</h5> -->
+  <div class="row">
+    <%orders.forEach(or=>{%>
     
-  
-  </table>
+      <div class="col-12 <%=or._id%>">
+        <div class="list-group mb-5">
+          <div class="list-group-item p-3 bg-snow" style="position: relative;">
+            <div class="row w-100 no-gutters">
+              <div class="col-6 col-md mx-3">
+                <h6 class="text-charcoal mb-0 w-100">Order Number</h6>
+                <a href="" class="text-pebble mb-0 w-100  mb-2 mb-md-0"><%=or._id%></a>
+              </div>
+              <div class="col-6 col-md">
+                <h6 class="text-charcoal mb-0 w-100">Date</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0"><%=or.paidAt%></p>  
+              </div>
+              <div class="col-6 col-md"> 
+                <h6 class="text-charcoal mb-0 w-100">Total</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">₹<%=or.totalPrice%></p> 
+              </div>
+              <div class="col-6 col-md"> 
+                <h6 class="text-charcoal mb-0 w-100">Shipped To</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0"><%=or.address.fullname%></p> 
+              </div>
+              <div class="col-12 col-md-3">
+                <a href="/user/order/<%=or.id%>" class="btn btn-primary mx-3 w-90">View Order</a>
+              </div>
+            </div>
+            
+          </div>
+          <div class="list-group-item p-3 bg-white">
+            <div class="row no-gutters">
+              <div class="col-12 col-md-9 pr-0 pr-md-3">
+                <div  class="alert p-2 mx-3 mb-2 alert-success w-90">
+                  <h6 class="text-green mb-0"><b>Shipped</b></h6>
+                  <p class="text-green hidden-sm-down mb-0">Est. delivery between Aug 5 – Aug 9th, 2017</p>
+                </div>
+              </div>
+              <div class="col-12 col-md-3 ">
+                <a href="" class="btn btn-secondary mx-3 w-90 mb-2">Track Shipment</a>
+              </div>
+              <%or.orderItems.forEach(item=>{%>
+                <div class="row no-gutters mt-3 mx-3 w-100">
+                  <div class="col-3 col-md-1">
+                    <img class="img-fluid pr-3" src="<%=item.image%>" alt="">
+                  </div>
+                  <div class="col-9 col-md-8 pr-0 pr-md-3">
+                    <h6 class="text-charcoal mb-2 mb-md-1">
+                      <a href="/products/<%=item.prid%>" class="text-charcoal"><%=item.qty%>   x   <%=item.name%></a>
+                    </h6>
+                    <ul class="list-unstyled text-pebble mb-2 small">
+                      <!-- <li class="">
+                        <b>Color:</b> Red
+                      </li> -->
+                      <li class="">
+                        <b>Size:</b> <%=item.size%>
+                      </li>
+                    </ul>
+                    <h6 class="text-charcoal text-left mb-0 mb-md-2"><b>₹<%=item.price * item.qty%></b></h6>
+                  </div>
+                  <div  class="col-12  col-md-3 hidden-sm-down">
+                    <a href="" class="btn btn-secondary mx-3 w-90 mb-2">Buy It Again</a>
+                    <a href="" class="btn btn-secondary mx-3 w-90">Request a Return</a>
+                  </div>
+                </div>
 
+              <%})%>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <%})%>
+   
+ 
+  </div>
 </div>
 
-<div class="_35va4c"><a class="_3dshlq" href="/order_details?order_id=OD120931049728908000&amp;item_id=12093104972890800&amp;unit_id=12093104972890800000"><div class="row"><div class="col-6-12"><div class="row"><div class="col-3-12"><div class="_3hQhLv"><div class="CXW8mj" style="height: 75px; width: 75px;"><img class="_396cs4  _3exPp9" alt="" src="https://res.cloudinary.com/arpityadav/image/upload/w_150/v1614418525/DDX/bdozr2qgvfbgcbf2jn2s.jpg"></div></div></div><div class="col-8-12"><div class="_1hVBfR"><span class="row _1kkfO3 BqOr_g">Numero Uno Tapered Fit Men Dark Blue Jea...</span><div class="row _65ZkAB"><span class="_3dOR_a"><span class="_65ZkAB">Color: </span><span class="-igymY">Dark Blue</span></span><span class="_3dOR_a"><span class="_65ZkAB">Size: </span><span class="-igymY">32</span></span><span class="_3dOR_a"></span></div><div class="row _65ZkAB"><span class="_65ZkAB _1uABhR">Seller: </span><span class="-igymY">RetailNet</span></div></div></div></div></div><div class="col-2-12 _1_SN5_">₹858<span> + <img src="" class="_2gMSIb">46</span></div><div class="col-4-12 pq5Jer"><div><div class="_3SbeKb _2cm2Hi"></div><span class="AO0UbU">Delivered on Feb 06</span><div class="_30gI7w">Your item has been delivered</div></div><div class="_18fmpV"></div><div class="_2yfTUY"><div class="_1dnpZA row"><a class="Efhm0G"><img src="" class="_1dki8b col-1-5"><span class="_2YpB-X col-3-5">Rate &amp; Review Product</span></a></div></div></div></div></a></div>
 
 
 <%-include('../partials/footer')%>

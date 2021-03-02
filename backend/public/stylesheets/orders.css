@@ -1,0 +1,173 @@
+.list-group {
+  border-color: #D0D5DC !important;
+}
+.list-group .list-group-item {
+  border-color: #D0D5DC !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500 !important;
+}
+.w-90{
+  width: 90%;
+}
+
+.bg-yellow {
+  background: #F5D847;
+  color: #222C3A;
+}
+
+.list-group-item-action {
+  background: #F9FAFB;
+}
+.list-group-item-action .fa {
+  width: 22px;
+}
+.list-group-item-action .fa.fa-angle-right {
+  font-size: 20px;
+  position: absolute;
+  right: 5px;
+  top: 14px;
+}
+
+
+.text-orange {
+  color: #EC9532 !important;
+}
+
+.text-carbon {
+  color: #222C3A !important;
+}
+
+.text-pebble {
+  color: #79879A !important;
+}
+
+.text-gray {
+  color: #A2ABB9 !important;
+}
+
+.text-cloud {
+  color: #D0D5DC !important;
+}
+
+.text-blue {
+  color: #49AED0 !important;
+}
+
+.text-gray {
+  color: #A2ABB9 !important;
+}
+
+.text-pale-sky {
+  color: #A2ABB9 !important;
+}
+
+.bg-black {
+  background: #111822 !important;
+}
+
+.bg-snow {
+  background: #F9FAFB !important;
+}
+
+.bg-fog {
+  background: #F0F2F5 !important;
+}
+
+.bb1-cloud {
+  border-bottom: 1px solid #D0D5DC;
+}
+
+.fs-14 {
+  font-size: 14px !important;
+}
+
+.fs-22 {
+  font-size: 22px !important;
+}
+
+.btn-primary {
+  background: #C62931;
+  border-color: #C62931;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background: #d94950;
+  border-color: #d94950;
+}
+
+.btn-secondary {
+  background: #FFFFFF !important;
+  color: #354050 !important;
+  border-color: #D0D5DC !important;
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  color: #354050 !important;
+  background: #F9FAFB !important;
+}
+.btn-secondary:active {
+  color: #79879A !important;
+  background: #F0F2F5 !important;
+}
+.btn-secondary:focus {
+  color: #79879A !important;
+  background: #F0F2F5 !important;
+  outline: 0 !important;
+}
+
+.bg-snow {
+  background: #F9FAFB !important;
+}
+
+.card {
+  border-color: #D0D5DC !important;
+}
+
+.text-pebble {
+  color: #79879A !important;
+}
+
+.text-charcoal {
+  color: #354050 !important;
+}
+
+
+
+.list-group {
+  border-color: #D0D5DC !important;
+}
+
+.list-group-item {
+  border-color: #D0D5DC !important;
+}
+
+.text-red {
+  color: #C62931 !important;
+}
+
+.text-green {
+  color: #00A362 !important;
+}
+
+.text-link-blue {
+  color: #3373cc !important;
+}
+
+.form-control {
+  background: #F9FAFB;
+  border-color: #D0D5DC !important;
+}
+
+.bd-2-cloud {
+  border: 2px dashed #D0D5DC;
+}
+
+.b-1-green {
+  border: 2px solid #00A362 !important;
+}
+
+.br-8 {
+  border-radius: 5px;
+}

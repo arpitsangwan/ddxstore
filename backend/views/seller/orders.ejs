@@ -1,6 +1,9 @@
 <%-include('../partials/header')%>
 <%-include('../partials/navbar')%>
 
+<link rel="stylesheet" type="" href="http://localhost:3000/stylesheets/orders.css">
+
+
 <div class="container">
 
   <table class="table">
@@ -38,5 +41,92 @@
   </table>
 
 </div>
+
+
+<div class="container mt-3 mt-md-5">
+  <h2 class="text-charcoal hidden-sm-down">Your Orders</h2>
+  <!-- <h5 class="text-charcoal hidden-md-up">Your Orders</h5> -->
+  <div class="row">
+    <%orders.forEach(or=>{%>
+    
+      <div class="col-12 <%=or._id%>">
+        <div class="list-group mb-5">
+          <div class="list-group-item p-3 bg-snow" style="position: relative;">
+            <div class="row w-100 no-gutters">
+              <div class="col-6 col-md mx-3">
+                <h6 class="text-charcoal mb-0 w-100">Order Number</h6>
+                <a href="" class="text-pebble mb-0 w-100  mb-2 mb-md-0"><%=or._id%></a>
+              </div>
+              <div class="col-6 col-md">
+                <h6 class="text-charcoal mb-0 w-100">Date</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0"><%=or.paidAt%></p>  
+              </div>
+              <div class="col-6 col-md"> 
+                <h6 class="text-charcoal mb-0 w-100">Total</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">₹<%=or.totalPrice%></p> 
+              </div>
+              <div class="col-6 col-md"> 
+                <h6 class="text-charcoal mb-0 w-100">Shipped To</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0"><%=or.address.fullname%></p> 
+              </div>
+              <div class="col-12 col-md-3">
+                <a href="/user/order/<%=or.id%>" class="btn btn-primary mx-3 w-90">View Order</a>
+              </div>
+            </div>
+            
+          </div>
+          <div class="list-group-item p-3 bg-white">
+            <div class="row no-gutters">
+              <div class="col-12 col-md-9 pr-0 pr-md-3">
+                <div  class="alert p-2 mx-3 mb-2 alert-success w-90">
+                  <h6 class="text-green mb-0"><b>Shipped</b></h6>
+                  <p class="text-green hidden-sm-down mb-0">Est. delivery between Aug 5 – Aug 9th, 2017</p>
+                </div>
+              </div>
+              <div class="col-12 col-md-3 ">
+                <a href="" class="btn btn-secondary mx-3 w-90 mb-2">Track Shipment</a>
+              </div>
+              <%or.orderItems.forEach(item=>{%>
+                <div class="row no-gutters mt-3 mx-3 w-100">
+                  <div class="col-3 col-md-1">
+                    <img class="img-fluid pr-3" src="<%=item.image%>" alt="">
+                  </div>
+                  <div class="col-9 col-md-8 pr-0 pr-md-3">
+                    <h6 class="text-charcoal mb-2 mb-md-1">
+                      <a href="/products/<%=item.prid%>" class="text-charcoal"><%=item.qty%>   x   <%=item.name%></a>
+                    </h6>
+                    <ul class="list-unstyled text-pebble mb-2 small">
+                      <!-- <li class="">
+                        <b>Color:</b> Red
+                      </li> -->
+                      <li class="">
+                        <b>Size:</b> <%=item.size%>
+                      </li>
+                    </ul>
+                    <h6 class="text-charcoal text-left mb-0 mb-md-2"><b>₹<%=item.price * item.qty%></b></h6>
+                  </div>
+                  <div  class="col-12  col-md-3 hidden-sm-down">
+                    <a href="" class="btn btn-secondary mx-3 w-90 mb-2">Buy It Again</a>
+                    <a href="" class="btn btn-secondary mx-3 w-90">Request a Return</a>
+                  </div>
+                </div>
+
+              <%})%>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <%})%>
+   
+ 
+  </div>
+</div>
+
+
+
+<%-include('../partials/footer')%>
+
 
 <%-include('../partials/footer')%>

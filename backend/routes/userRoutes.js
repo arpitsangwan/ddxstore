@@ -20,11 +20,8 @@ router.post('/address',async(req,res)=>{
 })
 
 router.get('/orders',async(req,res)=>{
-  let user = (await User.findById(req.user)).populate('orders');;
-  let orders;
-  for(let order of user.orders){
-    
-  }
+  let user = await User.findById(req.user).populate('orders');
+  let orders= user.orders;
   res.render('user/orders',{orders})
 
 })

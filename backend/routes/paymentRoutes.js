@@ -55,10 +55,10 @@ router.post('/',async (req,res)=>{
     instance.orders.create(options,async (err, order)=> { 
         //console.log(order)
         req.session.orderId=order.id
-        let orderPlaced= new Order({user:req.user,orderId:order.id,totalPrice:amt,address:req.user.address});
+        let orderPlaced= new Order({user:req.user,orderId:order.id,totalPrice:amt,address:req.user.address,paidAt:Date.now()});
         for(let pr of req.user.cartProducts){
             let foundProduct = await Product.findById(pr.pid);
-            orderPlaced.orderItems.push({prid:pr.pid,name:pr.name,image:pr.image,size:pr.size,qty:pr.qty,price:foundProduct.sellingprice})
+            orderPlaced.orderItems.push({prid:pr.pid,name:pr.name,image:pr.image,size:pr.size,qty:pr.qty,price:foundProduct.sellingprice,})
         }
         let orderSaved=await orderPlaced.save()
         res.render('checkout',{order:orderSaved})
