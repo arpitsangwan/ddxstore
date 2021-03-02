@@ -4,10 +4,10 @@ const Schema = mongoose.Schema;
 const Product = require('./productSchema')
 
 const ReviewSchema = new Schema({
-  // rating:{
-  //   type:Number,
-  //   required:true
-  // },
+  rating:{
+    type:Number,
+    required:true
+  },
   review:{
     type:String,
   },

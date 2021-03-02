@@ -1,0 +1,36 @@
+<%-include('partials/header')%>
+<%-include('partials/navbar')%>
+<div class='container'>
+<form action="/buy" method='post'>
+
+<div class="container">
+  <h2>Shipping Address</h2>
+      <%if(currentUser.address){%>
+        <p><%=currentUser.address%></p>
+        <a class="btn btn-primary" href="/user/address/edit">Edit</a>
+      <%}else{%>
+        <p>Please Add Shipping Address to Continue</p>
+        <a href="/user/address/new">Add Shipping Address</a>
+      <%}%>
+</div>
+ 
+<% for(let product of user.cartProducts) { %>
+
+     <div class="card d-flex" style="width: 25%;">
+      <img src="<%=product.image%>">
+      <div class="card-body">
+        <p class="card-text"><%=product.name%></p>
+        <p class="card-text"><%=product.size%></p>
+        <p class="card-text">Qty:<%=product.qty%></p>
+        <p class="card-text">₹<%=product.mrp%></p>
+        
+     </div>
+   </div>
+  
+    
+     
+<% }  %>
+
+<button class="btn btn-success m-2">Buy</button>
+</form>
+</div>

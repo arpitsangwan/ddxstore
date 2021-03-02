@@ -57,10 +57,9 @@ router.post('/',async (req,res)=>{
         req.session.orderId=order.id
         let orderPlaced= new Order({user:req.user,orderId:order.id,totalPrice:amt,address:req.user.address});
         for(let pr of req.user.cartProducts){
-        orderPlaced.orderItems.push({prid:pr.pid,qty:pr.qty})
+            let foundProduct = await Product.findById(pr.pid);
+            orderPlaced.orderItems.push({prid:pr.pid,name:pr.name,image:pr.image,size:pr.size,qty:pr.qty,price:foundProduct.sellingprice})
         }
-        console.log(orderPlaced)
-
         let orderSaved=await orderPlaced.save()
         res.render('checkout',{order:orderSaved})
     });

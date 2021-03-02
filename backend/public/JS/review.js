@@ -16,7 +16,15 @@ let btn= document.querySelector('.reviewbtn')
       let h4=document.createElement('h4')
       h4.classList.add('card-title')
       h4.appendChild(document.createTextNode(data.data.authorName))
-      div2.appendChild(h4)
+      let divstar = document.createElement('div');
+      div2.appendChild(h4);
+      div2.appendChild(divstar);
+      let stars = `<div class="card-header">
+    </div>
+    <p class="starability-result mx-3" data-rating="${data.data.rating}">
+      Rated: ${data.data.rating} stars
+    </p>`
+    divstar.innerHTML=stars;
 
       let p=document.createElement('p')
       p.classList.add('card-text')
@@ -45,9 +53,17 @@ let btn= document.querySelector('.reviewbtn')
   btn.addEventListener('click',async (event)=>{
     event.preventDefault(); 
     let text=document.querySelector('#comment').value;
+    let ele= document.querySelectorAll('.rating');
+    let rating
+    for(let el of ele){
+      if(el.checked){
+        rating = el.value;
+      }
+    }
+    console.log(rating);
        try{ 
-         let data =await axios.post(`/products/${pid}/review`,{text:text}) 
-           addReview(data);
+         let data =await axios.post(`/products/${pid}/review`,{text:text,rating:rating}) 
+         addReview(data);
               document.querySelector('#comment').value='';
       }
        catch(e){

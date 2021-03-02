@@ -1,6 +1,7 @@
 <%- include('./partials/header') %>
 <%- include('./partials/navbar') %>
-    
+  
+<link rel="stylesheet" type="text/css" href="http://localhost:3000/stylesheets/stars.css">
 
 
 <div class="container-fluid " >
@@ -20,11 +21,11 @@
                     <%})%>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                  <span class="carousel-control-prev-icon" style="background-color: black;" aria-hidden="true"></span>
+                  <span class="carousel-control-prev-icon" style="background-color: rgba(0, 0, 0, 0.541);" aria-hidden="true"></span>
                   <span class="sr-only">Previous</span>
                 </a>
                 <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                  <span class="carousel-control-next-icon" style="background-color: black;"  aria-hidden="true"></span>
+                  <span class="carousel-control-next-icon" style="background-color: rgba(0, 0, 0, 0.534);"  aria-hidden="true"></span>
                   <span class="sr-only">Next</span>
                 </a>
               </div>
@@ -67,6 +68,20 @@
                 <h3 class="mt-5">Reviews</h3>
                
                <form class='d-flex flex-column' >
+                <div class="form-group mb-0">
+                  <fieldset class="starability-basic">
+                    <input type="radio" class="rating" id="first-rate1" name="review[rating]" value=1 />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" class="rating" id="first-rate2" name="review[rating]" value=2 />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" class="rating" id="first-rate3" name="review[rating]" value=3 />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" class="rating" id="first-rate4" name="review[rating]" value=4 />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" class="rating" id="first-rate5" name="review[rating]" value=5 />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                  </fieldset>      
+                </div>
                    <textarea class='form-control' id='comment' name='comment' rows='3' placeholder="Add review"></textarea>
                    <input id="hidden" type="hidden" value="<%=product._id %>">
                    <button class='btn btn-secondary mt-1 reviewbtn'>Submit</button>
@@ -79,13 +94,19 @@
               
             <% for(let rev of product.reviews) {%>
                 <div class="card">
+                  <div class="card-header">
+                    <strong><%=rev.authorName%></strong>
+                    
+                  </div>
+                  <p  class="starability-result mx-3 mt-1 mb-0" data-rating="<%= rev.rating %>">
+                    Rated: <%= rev.rating %> stars
+                  </p>
                     <div class="card-body">
-                      <h4 class="card-title"><%=rev.authorName%></h4>
                       <p class="card-text" id='<%=rev._id%>'><%= rev.review %></p>
                         <%if(currentUser && rev.author== currentUser.id){%>
 
                       <form action="/products/<%=product._id%>/review?revId=<%=rev._id%>&&_method=delete"class= "mx-1" method="post">
-                        <button class="btn btn-danger ">Delete</button>
+                        <button class="btn btn-danger btn-sm">Delete</button>
                       </form>
                       <%}%>
                    </div>

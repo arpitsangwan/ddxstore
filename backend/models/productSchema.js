@@ -16,6 +16,9 @@ const imageSchema = new Schema({
 imageSchema.virtual('thumbnail').get(function(){
 	return this.url.replace('/upload','/upload/w_150')
 })
+imageSchema.virtual('profile').get(function(){
+	return this.url.replace('/upload','/upload/w_400')
+})
 const StockSchema = mongoose.Schema({
   size:{
     type:String,

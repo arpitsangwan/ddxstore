@@ -1,7 +1,8 @@
 const joi=require('joi')
 
 const reviewValid=joi.object({
-    text:joi.string().required()
+    rating:joi.number().required(),
+    text:joi.string().allow('', null)
 }).required()
 
 module.exports=reviewValid;

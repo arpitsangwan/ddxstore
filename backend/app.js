@@ -236,7 +236,7 @@ app.post('/cart/delete',async (req,res)=>{
 
 app.get('/products',async(req,res)=>{
   let newProduct = await Product.find();
-  res.render('categories',{products:newProduct});
+  res.render('products',{products:newProduct});
 })
 
 app.get('/search',async(req,res)=>{

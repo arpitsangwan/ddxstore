@@ -19,4 +19,14 @@ router.post('/address',async(req,res)=>{
   res.redirect('/profile');
 })
 
+router.get('/orders',async(req,res)=>{
+  let user = (await User.findById(req.user)).populate('orders');;
+  let orders;
+  for(let order of user.orders){
+    
+  }
+  res.render('user/orders',{orders})
+
+})
+
 module.exports= router;

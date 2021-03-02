@@ -14,6 +14,6 @@ router.get('/category/latest',async(req,res)=>{
 router.get('/category/:cat',async(req,res)=>{
   let category = req.params.cat;
   let products = await Product.find({category:category});
-  res.render('categories',{products});
+  res.render('products',{products});
 })
 module.exports = router;

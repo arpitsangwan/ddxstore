@@ -8,234 +8,87 @@
   <h2 class="text-center text-white"> Try changing search term </h2> 
  <% }%>
 
+  <div class="container-fluid">
 
-
-
-  <div id="wrapper">
-    <!-- <div class="cart-icon-top">
-    </div> -->
-  
-  <!-- <div id="checkout">
-    CHECKOUT
-  </div>
-   -->
   <div class="row">
 
-    <div class="col-sm-2">
-        <div id="sidebar">
-            <h3>CART<div class="cart-icon-bottom">
-            </div></h3>
-            <div id="cart">
-                <%if(currentUser && currentUser.cartProducts){%>
-                    <%currentUser.cartProducts.forEach(pr=>{%>
-                        <div class='cart-item'><div class='img-wrap'><img src="<%=pr.image%>" alt='' /></div><span><%=pr.name.substring(0,20)%></span><strong>₹<%=pr.mrp%></strong><div class='cart-item-border'></div><div class='delete-item'></div></div>
-                    <%})%>
-                <%}else{%>
-                <span class="empty">No items in cart.</span>       
-                    <%}%>
-            </div>
+    <div class="col-sm-2 justify-content-start justify-content-md-center">
+
             
-            <h3>CATEGORIES</h3>
-            <div class="checklist categories">
+            <p style="font-size: 1.8rem; max-width: 100%; box-sizing:content-box;" class="text-center" >CATEGORIES</p>
+            <div style="font-size: 1.6rem;" class="checklist categories text-center">
                 <ul>
-                    <li><a href="/products/category/t-shirts"><span></span> T-shirts</a></li>
-                    <li><a href="/products/category/lower"><span></span> Lower</a></li>
-                    <li><a href="/products/category/shirts"><span></span> Shirts</a></li>
-                    <li><a href="/products/category/latest"><span></span> New Arivals</a></li>
-                    <li><a href="/products/category/sweatshirts"><span></span> Sweatshirts</a></li>
-                    <li><a href="/products/category/jackets"><span></span> Jackets</a></li>
-                    <li><a href="/products/category/sweaters"><span></span> Sweaters</a></li>
-                    <li><a href="/products/category/shoes"><span></span> Shoes</a></li>
+                    <a href="/products/category/t-shirts" class="categories-link"> T-shirts</a>
+                    <a href="/products/category/lower" class="categories-link"> Lower</a>
+                    <a href="/products/category/shirts" class="categories-link"> Shirts</a>
+                    <a href="/products/category/latest" class="categories-link"> New Arivals</a>
+                    <a href="/products/category/sweatshirts" class="categories-link"> Sweatshirts</a>
+                    <a href="/products/category/jackets" class="categories-link"> Jackets</a>
+                    <a href="/products/category/sweaters" class="categories-link"> Sweaters</a>
+                    <a href="/products/category/shoes" class="categories-link"> Shoes</a>
                 </ul>
             </div>
-            
-
-      
-      
-  </div>
   </div>
 
   
   <div class="col-12 col-sm-10"> 
   
     <div id="grid-selector">
-            <!-- <div id="grid-menu">
-                View:
-                <ul>           	   
-                    <li class="largeGrid"><a  href=""></a></li>
-                    <li class="smallGrid"><a class="active" href=""></a></li>
-                </ul>
-            </div> -->
             
             Showing 1–9 of 48 results 
     </div>
-  
-    <div id="grid d-flex justify-content-center">
+
+        <div class="row d-flex justify-content-center justify-content-sm-start">
         
-        <%products.forEach(product=>{%>
+            <%products.forEach(product=>{%>
 
-        <div class="product col-lg-4 col-xl-3 col-sm-6 N mx-0 my-2">
-            <div class="info-large ">
-                <h4><%=product.name%></h4>
-                <div class="sku">
-                    PRODUCT SKU: <strong>89356</strong>
-                </div>
-                
-                <div class="price-big">
-                    <span>₹<%=product.mrp%></span>₹<%=product.sellingprice%>
-                </div>
-                
-                <h3>COLORS</h3>
-                <div class="colors-large">
-                    <ul>
-                        <li><a href="" style="background:#222"><span></span></a></li>
-                        <li><a href="" style="background:#6e8cd5"><span></span></a></li>
-                        <li><a href="" style="background:#f56060"><span></span></a></li>
-                        <li><a href="" style="background:#44c28d"><span></span></a></li>
-                    </ul> 
-                </div> 
-     
-                <h3>SIZE</h3>
-                <div class="sizes-large">
-            <span>XS</span>
-                    <span>S</span>
-                    <span>M</span>
-                    <span>L</span>
-                    <span>XL</span>
-                    <span>XXL</span>
-                </div>
-                
-                <button class="add-cart-large">Add To Cart</button>                          
-                            
-            </div>
-            <div class="make3D col-12">
-                <div class="product-front">
-                    <div class="shadow"></div>
-                    <img src="<%=product.images[0].url%>" alt="" />
-                    <div class="image_overlay"></div>
-                    <div class="add_to_cart"><a class="" href="/products/<%=product._id%>">View Details</a></div>
-                    <div class="view_gallery">View gallery</div>                
-                    <div class="stats">        	
-                        <div class="stats-container w-100">
-                            <span class="product_price ml-2">₹<%=product.sellingprice%></span>
-                            <span class="product_name"><%=product.name%></span>    
-                            <p>Summer dress</p>                                            
-                            
-                            <div class="product-options">
-                            <strong>SIZES</strong>
-                            <span>
-                                <%product.stocks.forEach(s=>{%>
-                                    <%=s.size%>,
-                                <%})%>
-                                </span>
-                            <!-- <strong>COLORS</strong>
-                            <div class="colors">
-                                <div class="c-blue"><span></span></div>
-                                <div class="c-red"><span></span></div>
-                                <div class="c-white"><span></span></div>
-                                <div class="c-green"><span></span></div>
-                            </div> -->
-                        </div>                       
-                        </div>                         
-                    </div>
-                </div>
-                <div class="product-back">
-                  <div class="shadow"></div>
-                  <div class="carousel">
-                      <ul class="carousel-container">
-                          <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1.jpg" alt="" /></li>
-                          <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2.jpg" alt="" /></li>
-                          <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3.jpg" alt="" /></li>
-                      </ul>
-                      <div class="arrows-perspective">
-                          <div class="carouselPrev">
-                              <div class="y"></div>
-                              <div class="x"></div>
-                          </div>
-                          <div class="carouselNext">
-                              <div class="y"></div>
-                              <div class="x"></div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="flip-back">
-                      <div class="cy"></div>
-                      <div class="cx"></div>
-                  </div>
-
-                
-                <div class="product-back w-100">
-                    <div class="shadow"></div>
-                    
-                    <div class="carousel">
-                        <ul class="carousel-container w-100">
-                            <%product.images.forEach(img=>{%>
-                                <li><img class="w-100" src="<%=img.url%>" alt="" /></li>
-                            <%})%>
-                        </ul>
-                        <div class="arrows-perspective">
-                            <div class="carouselPrev">
-                                <div class="y"></div>
-                                <div class="x"></div>
+                <div  class="product col-xl-3 col-lg-4 col-sm-6 col-9 mx-0 my-2" onclick="location.href='/products/<%=product._id%>';" target="_blank">    
+                    <div class="make3D">
+                        <div class="product-front">
+                            <div class="shadow"></div>
+                            <img src="<%=product.images[0].profile%>" alt="<%product.images[0].filename%>" />
+                            <div class="image_overlay"></div>             
+                            <div class="stats">        	
+                                <div class="stats-container w-100">
+                                    <span style="font-size:1.5rem;" class="product_name d-block"><%=product.name%></span>    
+                                    <span class="product_price ml-2">₹<%=product.sellingprice%></span>
+                                    <span  class="product_mrp ml-2">₹<%=product.mrp%></span>
+                                    <span class="product_discount"><%=Math.floor((product.mrp-product.sellingprice)/product.mrp *100)%>%off</span>
+                                    <span class="d-block product_category"><%=product.category%></span>                                            
+                                    <div class="product-options">
+                                    <strong>SIZES</strong>
+                                    <span>
+                                        <%product.stocks.forEach(s=>{%>
+                                            <%=s.size%>,
+                                        <%})%>
+                                        </span>
+                                </div>                       
+                                </div>                         
                             </div>
-                            <div class="carouselNext">
-                                <div class="y"></div>
-                                <div class="x"></div>
-                            </div>
-                        </div>
+                        </div>     
+                     
                     </div>
-                    <div class="flip-back">
-                        <div class="cy"></div>
-                        <div class="cx"></div>
-                    </div>
-                </div>	  
-            </div>	
-        
-        
-
-     
+            
+            
+                </div>
+      <%})%>
+      
+    
+    
+    
+    
         </div>
-    
-    
-  </div>
-  <%})%>
   
-
-
-
-
-</div>
+    
 
 </div>
  
+
+</div>
 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="/javascripts/products.js"></script>
-
- 
-<!-- 
-<div class = "container d-flex justify-content-start flex-wrap">
-  
-     <%products.forEach(product=>{%>
-
-      <div class="card mx-auto my-4 " style="width: 25%;">
-        <img src="<%=product.images[0].url%>" class="card-img-top">
-        <div class="card-body">
-          <p class="card-text"><%=product.Name%></p>
-          
-        </div>
-        <strong style="font-size: 2rem;">₹<%=product.sellingprice%></strong>
-        <s style="font-size: 1.5rem; font">₹<%=product.mrp%></s>
-        
-        <button class="btn btn-success m-2">Buy</button>
-        <a class="btn btn-primary m-2" href="/products/<%=product._id%>">View Details</a>
-      </div>
-
- <%})%>
-    
-    
-</div> -->
 
 
 <%- include('partials/footer')%>

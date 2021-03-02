@@ -36,11 +36,11 @@ const isOwner= async (req,res,next)=>{
   router.post('/:id/review',isLoggedIncust,async (req,res)=>{
    try{
     let {id}=req.params
-    let {text}=req.body
-    const {error}=revSchemaJoi.validate(req.body)
+    let {text,rating}=req.body;
+    const {error}=revSchemaJoi.validate(req.body);
     if(error){ 
-      req.flash('error',"Can not submit empty review")
-     throw new myError('Can not submit empty review',400)
+      req.flash('error',"Please rate!")
+     throw new myError('Please rate!',400)
     }
 
     let prod= await Product.findById(id)
@@ -50,7 +50,7 @@ const isOwner= async (req,res,next)=>{
 
       throw new myError('Can not find product',404)
     }
-    let newReview= new Review({review:text,authorName:req.user.name,author:req.user})
+    let newReview= new Review({review:text,rating:rating,authorName:req.user.name,author:req.user})
     let reviewSaved=await newReview.save().catch((e)=>{
       req.flash('error',"Only one review per user allowed")
       throw new myError('Only one review per user allowed',401)
