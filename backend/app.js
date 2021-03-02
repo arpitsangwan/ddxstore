@@ -109,7 +109,14 @@ app.get('/logout',(req,res)=>{
   req.logout();
   res.redirect('/');
 })
-
+app.get('/search',async(req,res)=>{
+  let {q}=req.query;
+    let prod=await Product.find({keyword:new RegExp(q,'i')})
+    if(q==''){
+        prod=prod.slice(0,3)
+    }
+    res.send(prod)
+})
 // app.get('/register',(req,res)=>{
 //   res.render('register')
 // })
