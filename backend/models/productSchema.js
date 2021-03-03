@@ -45,7 +45,6 @@ const ProductSchema = new mongoose.Schema({
       author:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
-        unique:true
       }
     
     },
@@ -74,7 +73,6 @@ const ProductSchema = new mongoose.Schema({
     required:true,
     default:"U"
   },
-  // categoryId:String,
   mrp:{
     type:Number,
     required:true,
@@ -84,16 +82,7 @@ const ProductSchema = new mongoose.Schema({
     type:Number,
     required:true,
   },
-  // listedBy:{
-  //   type:Schema.Types.ObjectId,
-  //   ref:'User'
-  // },
-  // availableSize:String,
-  // availableColor:String,
-  // size:{
-  //   type:String,
-  //   required:true
-  // },
+ 
   color:String,
   images:[imageSchema], //to be made array
   keyword:{

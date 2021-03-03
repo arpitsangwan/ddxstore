@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const OrderSchema=require('./orderSchema')
-// const Seller = require('./sellerSchema');
 const Cart=new mongoose.Schema({
   pid:{
     type:mongoose.Schema.Types.ObjectID,

@@ -18,6 +18,7 @@ const paymentRoutes=require('./routes/paymentRoutes')
 const {Cart}=require('./models/userSchema')
 const methodOverride=require('method-override');
 const catchAsync = require('./utils/catchAsync')
+const Review=require('./models/reviewSchema')
 
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs');
@@ -239,9 +240,15 @@ app.get('/products/women',catchAsync (async(req,res)=>{
 // })
 
 app.get('/products/:id',async (req,res)=>{
-  const product = await Product.findById(req.params.id).populate('reviews');
-  res.render('show',{product});
-})
+  const product = await Product.findById(req.params.id);
+  let reviews=[];
+  for(let rev of product.reviews){
+    let temp=await Review.findById(rev.reviewId);
+    reviews.push(temp);
+  }
+ 
+   res.render('show',{product,reviews});
+ })
 
 app.use((err, req, res, next) => {
 	const { status = 400, message = "Something went wrong!!" } = err;

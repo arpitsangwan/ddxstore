@@ -36,31 +36,34 @@ const isOwner= async (req,res,next)=>{
   router.post('/',isLoggedIncust,async (req,res)=>{
    try{
     let {id}=req.params;
-    console.log(req.params)
     let {text,rating}=req.body;
     const {error}=revSchemaJoi.validate(req.body);
     if(error){ 
       req.flash('error',"Please rate!")
      throw new myError('Please rate!',400)
     }
-    console.log(id);
     let prod= await Product.findById(id);
-    console.log(prod)
-    console.log('first product',prod)
     if(!prod){
       req.flash('error',"Can not find product")
       throw new myError('Can not find product',404)
     }
     let newReview= new Review({review:text,rating:rating,authorName:req.user.name,author:req.user})
-    let reviewSaved=await newReview.save().catch((e)=>{
-      req.flash('error',"Only one review per user allowed")
-      throw new myError('Only one review per user allowed',401)
-    })
-    console.log('saved reivew is ',reviewSaved);
-    prod.reviews.push({reviewId:reviewSaved,author:req.user})
-    console.log(prod); //kam kr raha hai 
-    let savedproduct = await prod.save();
-    console.log('saved product is ',savedproduct);
+
+    
+   
+    let pro=await Product.findById(id);
+   for(let rev of pro.reviews) {
+
+      if(rev.author==req.user.id){
+        req.flash('error','Only one review per user allowed')
+       throw new myError('Only one review per user allowed',401)
+      }
+      
+    }
+    let reviewSaved=await newReview.save()
+    await prod.reviews.push({reviewId:reviewSaved,author:req.user})
+    await prod.save();
+
     res.send(reviewSaved)
   }
   catch(error){
@@ -77,7 +80,9 @@ const isOwner= async (req,res,next)=>{
       let{id}=req.params
       let{revId}=req.query
     
-         await Product.findByIdAndUpdate(id, { $pull:{reviews:revId} } )
+
+      await Product.update({ _id: id }, { "$pull": { "reviews": { "reviewId": revId } } }, { safe: true }, function(err, obj) {});
+
           await Review.deleteOne({_id:revId})
 
           req.flash('success','Review deleted') 
