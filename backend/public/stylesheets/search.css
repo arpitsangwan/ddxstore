@@ -17,7 +17,7 @@
     box-sizing: border-box;
 }
 .searchResults .card img{
-    width:100%;
+    max-width:100%;
     height:auto;
     max-height:200px;
     border-radius: 10%;

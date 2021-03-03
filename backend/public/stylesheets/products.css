@@ -26,7 +26,7 @@ body {
 		 -o-transition: width 500ms ease-in-out;
  		    transition: width 500ms ease-in-out;
 }
-.product-front img{width:100%;}
+.product-front img{width:95%;}
 .product-front{
 	/* width:315px; */
 	width:auto;
@@ -35,10 +35,10 @@ body {
 	position:absolute;
 	left:-5px;
 	top:-5px;
-	-webkit-transition: all 100ms ease-out; 
-       -moz-transition: all 100ms ease-out; 
-         -o-transition: all 100ms ease-out; 
-            transition: all 100ms ease-out; 
+	-webkit-transition: all 200ms ease-out; 
+       -moz-transition: all 200ms ease-out; 
+         -o-transition: all 200ms ease-out; 
+            transition: all 200ms ease-out; 
 }
 
 .make3D.animate .product-front,
@@ -47,27 +47,27 @@ body {
 	width:102%;
 	height:470px;
 	position:absolute;    
-	top:10px;
-	left:10px;	
+	/* top:10px;
+	left:10px;	 */
 	overflow:hidden;
     transform-style: preserve-3d;
-	-webkit-transition:  100ms ease-out; 
-       -moz-transition:  100ms ease-out; 
-         -o-transition:  100ms ease-out; 
-            transition:  100ms ease-out;
+	-webkit-transition:  500ms ease-out; 
+       -moz-transition:  500ms ease-out; 
+         -o-transition:  500ms ease-out; 
+            transition:  500ms ease-out;
 }
 
 .make3D.animate{
-	top:5px;
-	left:5px;
+	/* top:5px;
+	left:5px; */
 	/* width:315px; */
 	width:105%;
 	height:480px;
 	box-shadow:0px 5px 31px -1px rgba(0, 0, 0, 0.15);
-	-webkit-transition:  100ms ease-out; 
-       -moz-transition:  100ms ease-out; 
-         -o-transition:  100ms ease-out; 
-            transition:  100ms ease-out; 
+	-webkit-transition:  200ms ease-out; 
+       -moz-transition:  200ms ease-out; 
+         -o-transition:  200ms ease-out; 
+            transition:  200ms ease-out; 
 }
 
 
@@ -77,7 +77,7 @@ body {
 	top:382px;
 	left:0;
 	/* width: 252px; */
-	width:100%
+	width:100%;
 	height: 300px;
 	padding: 24px 40px 35px 32px;
 	-webkit-transition: all 200ms ease-out; 

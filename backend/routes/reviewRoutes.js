@@ -1,5 +1,5 @@
 const express=require('express');
-const router=express.Router()
+const router = express.Router({ mergeParams: true });
 const Review=require('../models/reviewSchema')
 const Product=require('../models/productSchema')
 const {isLoggedIn}=require('../middleware')
@@ -33,21 +33,22 @@ const isOwner= async (req,res,next)=>{
   
   const revSchemaJoi=require('../utils/joiSchema');
 
-  router.post('/:id/review',isLoggedIncust,async (req,res)=>{
+  router.post('/',isLoggedIncust,async (req,res)=>{
    try{
-    let {id}=req.params
+    let {id}=req.params;
+    console.log(req.params)
     let {text,rating}=req.body;
     const {error}=revSchemaJoi.validate(req.body);
     if(error){ 
       req.flash('error',"Please rate!")
      throw new myError('Please rate!',400)
     }
-
-    let prod= await Product.findById(id)
+    console.log(id);
+    let prod= await Product.findById(id);
+    console.log(prod)
     console.log('first product',prod)
     if(!prod){
       req.flash('error',"Can not find product")
-
       throw new myError('Can not find product',404)
     }
     let newReview= new Review({review:text,rating:rating,authorName:req.user.name,author:req.user})
@@ -56,7 +57,7 @@ const isOwner= async (req,res,next)=>{
       throw new myError('Only one review per user allowed',401)
     })
     console.log('saved reivew is ',reviewSaved);
-    prod.reviews.push(reviewSaved)
+    prod.reviews.push({reviewId:reviewSaved,author:req.user})
     console.log(prod); //kam kr raha hai 
     let savedproduct = await prod.save();
     console.log('saved product is ',savedproduct);
@@ -68,11 +69,11 @@ const isOwner= async (req,res,next)=>{
 
   }
   })
-  router.put('/:id/review/:revId',isLoggedIn,isOwner,async(req,res)=>{
-    let {text}=req.body
-    let rev=Review.findById(revId)
-  })
-  router.delete('/:id/review',isLoggedIn,isOwner,async(req,res)=>{
+  // router.put(':revId',isLoggedIn,isOwner,async(req,res)=>{
+  //   let {text}=req.body
+  //   let rev=Review.findById(revId)
+  // })
+  router.delete('/',isLoggedIn,isOwner,async(req,res)=>{
       let{id}=req.params
       let{revId}=req.query
     

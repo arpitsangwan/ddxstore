@@ -28,6 +28,10 @@ const AddressSchema = new Schema({
     type:String,
     required:true
   },
+  city:{
+    type:String,
+    required:true
+  },
   state:{
     type:String,
     required:true
@@ -46,6 +50,9 @@ const OrderSchema = new Schema({
     type:String,
     required:true,
     unique:true
+  },
+  trackingId:{
+    type:String,
   },
   address:AddressSchema,
   // email:{

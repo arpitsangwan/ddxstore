@@ -7,7 +7,16 @@
   <div class="container">
   <h2>Shipping Address</h2>
   <%if(currentUser.address){ %>
-    <p><%=currentUser.address%></p>
+    <div class="displayAddressDiv">
+      <ul class="displayAddressUL">
+      <strong > <%=currentUser.address.fullname%></strong><br>
+      <strong ><%=currentUser.address.mobileNumber%></strong><br>
+      <strong ><%=currentUser.address.address%> </strong><br>
+      <strong ><%=currentUser.address.landmark%></strong><br>
+      <strong ><%currentUser.address.town%> <%=currentUser.address.state%> <%=currentUser.address.pincode%></strong><br>
+      <strong >India</strong><br>
+      </ul>
+      </div>
     <a class="btn btn-primary" href="/user/address/edit">Edit</a>
   <%} else {%>
     <p>Please Add Shipping Address to Continue</p>
@@ -38,8 +47,9 @@
       <img src="<%=product.image%>">
     </div>
     <div class="product-details">
-      <div class="product-title"><%=product.name%></div>
-      <p class="product-description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere natus doloremque inventore illum molestias qui ea, ullam voluptate optio? Nisi neque esse cupiditate tempora modi laboriosam voluptate debitis quis vitae!.</p>
+      <div  class="product-title">
+        <a href="/products/<%=product.pid%>"><%=product.name%></a></div>
+      <p class="product-description"><%=product.description%></p>
     </div>
     <div class="product-price"><%=product.mrp%></div>
     <div class="product-quantity">
@@ -70,7 +80,7 @@
     </div>
   </div>
       
-      <button class="checkout">Checkout</button>
+      <button class="checkout mb-5">Checkout</button>
 
 </div>
 </form>

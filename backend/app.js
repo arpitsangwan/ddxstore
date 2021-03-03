@@ -16,7 +16,8 @@ const productRoutes = require('./routes/productRoutes')
 const {isLoggedIn}= require('./middleware');
 const paymentRoutes=require('./routes/paymentRoutes')
 const {Cart}=require('./models/userSchema')
-const methodOverride=require('method-override')
+const methodOverride=require('method-override');
+const catchAsync = require('./utils/catchAsync')
 
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs');
@@ -69,11 +70,12 @@ app.use((req,res,next)=>{
   next();
 })
 app.use('/buy',isLoggedIn,paymentRoutes)
-app.use('/products',reviewRoutes);
 app.use('/auth',authRoutes);
 app.use('/seller',sellerRoutes);
 app.use('/user',userRoutes);
 app.use('/products',productRoutes);
+app.use('/products/:id/review',reviewRoutes);
+
 
 
 app.get('/',(req,res)=>{
@@ -82,7 +84,7 @@ app.get('/',(req,res)=>{
 
 });
 
-app.get('/profile',isLoggedIn,async(req,res)=>{
+app.get('/profile',isLoggedIn,catchAsync(async(req,res)=>{
   if(req.user.isSeller){
     let products = await Product.find({});
     return res.render('seller/profile',{products});
@@ -91,17 +93,9 @@ app.get('/profile',isLoggedIn,async(req,res)=>{
     res.render('user/profile')
   }
   
-})
+}))
 
 
-app.get('/test',(req,res)=>{
-  res.render('categories')
-})
-
-app.post('/new',(req,res)=>{
-  let data = req.body;
-  res.send('recieved');
-})
 app.get('/login',(req,res)=>{
   res.render('user/login')
 })
@@ -109,41 +103,21 @@ app.get('/logout',(req,res)=>{
   req.logout();
   res.redirect('/');
 })
-app.get('/search',async(req,res)=>{
+app.get('/search',catchAsync(async(req,res)=>{
   let {q}=req.query;
     let prod=await Product.find({keyword:new RegExp(q,'i')})
     if(q==''){
         prod=prod.slice(0,3)
     }
     res.send(prod)
-})
-// app.get('/register',(req,res)=>{
-//   res.render('register')
-// })
+}))
 
-// app.post('/register',async (req,res)=>{
-  
-  // console.log(req.body);
-  // res.send('on the register post page')
-  // newUser=new User(data);
-  // try{
-  // await newUser.save();}
-  // catch(e){
-  //   req.flash('error',e.message)
-  //   res.redirect('/register')
-  // }
-  // res.redirect('/');
- 
-// })
-
-app.post('/:id/cart',async (req,res)=>{
+app.post('/:id/cart',catchAsync (async(req,res)=>{
     let {size,qty,name}=req.body
     let {id}=req.params
     const prod=await Product.findById(id)
     if(!req.isAuthenticated()){
-    if(!req.session.cartProducts){
-      req.session.count=1;
-      req.session.cartProducts=[{
+      cartProduct={
         id:req.session.count,
         name:name,
         pid:id,
@@ -151,21 +125,15 @@ app.post('/:id/cart',async (req,res)=>{
         qty:qty,
         mrp:prod.sellingprice,
         image:prod.images[0].thumbnail
-      }]
+      }
+    if(!req.session.cartProducts){
+      req.session.count=1;
+      req.session.cartProducts=[cartProduct]
       
     }
   else{
     req.session.count++;
-    req.session.cartProducts.push(
-      { 
-      id:req.session.count,
-      name:name,
-      pid:id,
-      size:size,
-      qty:qty,
-      mrp:prod.sellingprice,
-      image:prod.images[0].thumbnail
-      })
+    req.session.cartProducts.push(cartProduct)
     }}
     else{
      let user= await User.findById(req.user.id)
@@ -175,9 +143,9 @@ app.post('/:id/cart',async (req,res)=>{
     }
     req.flash('success','Added to cart')
     res.redirect('/cart')
-})
+}))
 
-app.get('/cart',async (req,res)=>{
+app.get('/cart',catchAsync (async(req,res)=>{
   if(req.isAuthenticated()){
    let user=await User.findById(req.user.id);
    if(user.cartProducts && user.cartProducts.length){ 
@@ -204,8 +172,8 @@ app.get('/cart',async (req,res)=>{
     }
  res.render('cart',{products}) }
 
-})
-app.put('/cart', async (req,res)=>{
+}))
+app.put('/cart', catchAsync (async(req,res)=>{
   let {id,qty}=req.body;
   if(req.isAuthenticated() ){
   let user=await User.findById(req.user.id);
@@ -226,8 +194,8 @@ return res.send('done')
     }
     res.send('done');
   }
-})
-app.post('/cart/delete',async (req,res)=>{
+}))
+app.post('/cart/delete',catchAsync (async(req,res)=>{
   let {id}=req.body;
   if(req.isAuthenticated()){
   let user = await User.updateOne({ _id: req.user.id }, { "$pull": { "cartProducts": { "_id": id } }}, { new:true }); 
@@ -237,33 +205,31 @@ app.post('/cart/delete',async (req,res)=>{
   }
 
   res.send('deleted')
+}))
 
-
-})
-
-app.get('/products',async(req,res)=>{
+app.get('/products',catchAsync(async(req,res)=>{
   let newProduct = await Product.find();
   res.render('products',{products:newProduct});
-})
+}))
 
-app.get('/search',async(req,res)=>{
+app.get('/search',catchAsync(async(req,res)=>{
    let {q}= req.query
    let products = await Product.find({Keyword:q})
   res.render('products',{products});
-})
-app.get('/search',async(req,res)=>{
+}))
+app.get('/search',catchAsync(async(req,res)=>{
   let {searchterm}= req.query
   let products = await Product.find({Keyword:searchterm})
  res.render('products',{products});
-})
-app.get('/products/men',async (req,res)=>{
+}))
+app.get('/products/men',catchAsync (async(req,res)=>{
   let products = await Product.find({gender:"M"});
   res.send(products);
-})
-app.get('/products/women',async (req,res)=>{
+}))
+app.get('/products/women',catchAsync (async(req,res)=>{
   let products = await Product.find({gender:"W"});
   res.send(products);
-})
+}))
 
 
 
@@ -277,8 +243,11 @@ app.get('/products/:id',async (req,res)=>{
   res.render('show',{product});
 })
 
-
-    
+app.use((err, req, res, next) => {
+	const { status = 400, message = "Something went wrong!!" } = err;
+	console.log(message);
+	res.status(status).render('error',{error:err});
+});
    
 
 const port = 3000;
