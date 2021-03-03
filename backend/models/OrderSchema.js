@@ -28,10 +28,10 @@ const AddressSchema = new Schema({
     type:String,
     required:true
   },
-  city:{
+  /* city:{
     type:String,
     required:true
-  },
+  }, */
   state:{
     type:String,
     required:true

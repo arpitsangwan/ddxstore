@@ -114,13 +114,12 @@ app.get('/search',catchAsync(async(req,res)=>{
 }))
 
 app.post('/:id/cart',catchAsync (async(req,res)=>{
-    let {size,qty,name}=req.body
+    let {size,qty}=req.body
     let {id}=req.params
     const prod=await Product.findById(id)
     if(!req.isAuthenticated()){
       cartProduct={
-        id:req.session.count,
-        name:name,
+        name:prod.name,
         pid:id,
         size:size,
         qty:qty,
@@ -129,13 +128,16 @@ app.post('/:id/cart',catchAsync (async(req,res)=>{
       }
     if(!req.session.cartProducts){
       req.session.count=1;
+      cartProduct.id=req.session.count;
       req.session.cartProducts=[cartProduct]
       
     }
   else{
     req.session.count++;
+    cartProduct.id=req.session.count;
     req.session.cartProducts.push(cartProduct)
-    }}
+    }
+  }
     else{
      let user= await User.findById(req.user.id)
      let cart=await new Cart({pid:id,name:prod.name,qty,size,mrp:prod.sellingprice,image:prod.images[0].thumbnail})

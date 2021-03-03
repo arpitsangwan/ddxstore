@@ -7,7 +7,8 @@ const {User}=require('../models/userSchema')
 const cartTransfer=async (req)=>{
   let user=await User.findById(req.user.id)
   for(let prod of req.session.cartProducts){
-    let{pid,size,qty,mrp,image,name}=prod
+    console.log(prod)
+    let{pid,size,qty,mrp,image,name}=prod;
     let cartProd=new Cart({pid,name,size,qty,mrp,image}) 
     user.cartProducts.push(cartProd)
     await user.save()
