@@ -16,6 +16,7 @@
     <tr class="table-active">
       <th>Image</th>
       <th>Name</th>
+      <th>Stocks</th>
       <th>Edit</th>
       <th>Delete</th>
     </tr>
@@ -23,6 +24,22 @@
       <tr class="table-primary ">
         <td><img   style="max-width: 100px;" src="<%=pr.images[0].thumbnail%>" alt=""></td>
         <td><a href="/products/<%=pr._id%>"><%=pr.name%> </a></td>
+        <td>
+          <table>
+            <tr>
+              <th>Size</th>
+              <th>Units</th>
+            </tr>
+            <tr>
+          <%pr.stocks.forEach(stock=>{%>
+          
+              <td><%=stock.size%>: </td>
+              <td> <%=stock.units%></td>
+            </tr>
+          
+        <%})%>
+      </table>
+      </td>
         <td><a class="btn btn-warning" href="/seller/products/<%=pr._id%>/edit">Edit</a></td>
         <td><a class="btn btn-danger" href="/seller/products/<%=pr._id%>/delete">Delete</a></td>
      </tr>

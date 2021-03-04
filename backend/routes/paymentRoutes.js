@@ -8,10 +8,9 @@ const {User}=require('../models/userSchema')
 
 
 
-
 const instance = new Razorpay({
-    key_id: 'rzp_test_R41PjHReUPGRt1',
-    key_secret: 'tEXGaWqbhF06JgiQG9MoCy7V',
+    key_id:process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
   });
 
 router.get('/payment',(req,res)=>{
@@ -38,7 +37,7 @@ router.post('/',async (req,res)=>{
        // receipt: 'order_rcptid_11'
     };
     instance.orders.create(options,async (err, order)=> { 
-        //console.log(order)
+        console.log(order)
         req.session.orderId=order.id
         let orderPlaced= new Order({user:req.user,orderId:order.id,totalPrice:amt,address:req.user.address,paidAt:Date.now()});
         for(let pr of req.user.cartProducts){

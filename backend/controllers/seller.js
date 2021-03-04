@@ -9,6 +9,7 @@ const {User} = require('../models/userSchema');
 
 module.exports.profile=async(req,res)=>{
   let products = await Product.find({});
+  products = products.reverse();
   res.render('seller/profile',{products})
 }
 module.exports.renderProductForm=(req,res)=>{
