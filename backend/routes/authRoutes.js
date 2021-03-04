@@ -26,7 +26,7 @@ router.get('/google/redirect',passport.authenticate('google'),(req,res)=>{
   if(req.session.cartProducts){
   cartTransfer(req);}
   req.flash('success',`Welcome Back! ${req.user.name}`)
-  res.redirect('/profile');
+  res.redirect('/');
 })
 
 router.get('/facebook',passport.authenticate('facebook',{
@@ -36,7 +36,7 @@ router.get('/facebook/redirect',passport.authenticate('facebook'),(req,res)=>{
   if(req.session.cartProducts){
     cartTransfer(req);}
   req.flash('success',`Welcome Back! ${req.user.name}`)
-   res.redirect('/profile');
+   res.redirect('/');
   
 })
 

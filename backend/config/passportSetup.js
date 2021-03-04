@@ -13,8 +13,8 @@ passport.deserializeUser(function(id, done){
   });
 });
 passport.use(new FacebookStrategy({
-  clientID:'440876164006143',
-  clientSecret:'3c31a1d485ac30fd0c700fe20c5d9f63',
+  clientID:process.env.FACEBOOK_CLIENT_ID,
+  clientSecret:process.env.FACEBOOK_CLIENT_SECRET,
   callbackURL:"/auth/facebook/redirect",
   profileFields: ['id', 'emails', 'name']
 },
@@ -39,8 +39,8 @@ async (accessToken,refreshToken,profile,done)=>{
 passport.use(new GoogleStrategy({
   //options
   callbackURL:"/auth/google/redirect",
-  clientID:'727116452928-fbd7eqojotcpbi84gqgbha8l07g1ij74.apps.googleusercontent.com',
-  clientSecret:'thZc2-1dY1wfzQDddLsz-1p-'
+  clientID:process.env.GOOGLE_CLIENT_ID,
+  clientSecret:process.env.GOOGLE_CLIENT_SECRET
 },async(accessToken,refreshToken,profile,done)=>{
   // passport callback function
   // console.log("in callback function ");

@@ -10,7 +10,7 @@ const {storage, cloudinary}= require('../cloudinary')
 const upload = multer({storage});
 
 router.use(isLoggedIn,isSeller);;
-router.get('/profile',isLoggedIn,isSeller,catchAsync(seller.profile));
+router.get('/profile',catchAsync(seller.profile));
 router.get('/orders',seller.orders);
 router.get('/orders/:id',seller.orderId);
 router.patch('/orders/:id/trackingid',seller.updateTrackingId);
@@ -19,9 +19,9 @@ router.patch('/orders/:id/delivered',seller.updateDeliveredStatus);
 router.get('/products/new',seller.renderProductForm);
 
 
-router.post('/products/new',isLoggedIn,upload.array('images'),catchAsync(seller.createProduct))
+router.post('/products/new',upload.array('images'),catchAsync(seller.createProduct))
 router.get('/products/:id/edit',catchAsync(seller.renderUpdateProductForm))
 router.patch('/products/:id',upload.array('images'),catchAsync(seller.updateProduct))
-router.get('/products/:id/delete',isLoggedIn,isSeller,catchAsync(seller.deleteProduct))
+router.get('/products/:id/delete',catchAsync(seller.deleteProduct))
 
 module.exports= router;
