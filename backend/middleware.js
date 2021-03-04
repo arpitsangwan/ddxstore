@@ -25,3 +25,11 @@ module.exports.isOwner= async(req,res,next)=>{
   next();
 
 }
+
+module.exports.isValidId = function(req,res,next){
+	if (!(req.params.id).match(/^[0-9a-fA-F]{24}$/)) {
+		req.flash('error','Product not found!!');
+		return res.redirect('/')
+	  }
+	  next();
+}

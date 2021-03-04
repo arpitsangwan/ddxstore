@@ -24,9 +24,8 @@ const AddressSchema = new Schema({
   landmark:{
     type:String,
   },
-  town:{
+  town:{ 
     type:String,
-    required:true
   },
   /* city:{
     type:String,

@@ -2,8 +2,9 @@ const express=require('express');
 const router = express.Router({ mergeParams: true });
 const Review=require('../models/reviewSchema')
 const Product=require('../models/productSchema')
-const {isLoggedIn}=require('../middleware')
+const {isLoggedIn,isValidId}=require('../middleware')
 const myError=require('../utils/myerror.js')
+const {validateReview}=require('../utils/joiSchema');
 const isOwner= async (req,res,next)=>{
   let review=await Review.findById(req.query.revId)  
   let {id}=req.params
@@ -31,16 +32,16 @@ const isOwner= async (req,res,next)=>{
     }
     
   
-  const revSchemaJoi=require('../utils/joiSchema');
 
-  router.post('/',isLoggedIncust,async (req,res)=>{
+
+  router.post('/',isValidId,isLoggedIncust,async (req,res)=>{
    try{
     let {id}=req.params;
     let {text,rating}=req.body;
-    const {error}=revSchemaJoi.validate(req.body);
+    const {error}=validateReview.validate(req.body);
     if(error){ 
-      req.flash('error',"Please rate!")
-     throw new myError('Please rate!',400)
+      req.flash('error',"Please rate first!")
+     throw new myError('Please rate first!',400)
     }
     let prod= await Product.findById(id);
     if(!prod){
@@ -76,12 +77,12 @@ const isOwner= async (req,res,next)=>{
   //   let {text}=req.body
   //   let rev=Review.findById(revId)
   // })
-  router.delete('/',isLoggedIn,isOwner,async(req,res)=>{
+  router.delete('/',isValidId,isLoggedIn,isOwner,async(req,res)=>{
       let{id}=req.params
       let{revId}=req.query
     
 
-      await Product.update({ _id: id }, { "$pull": { "reviews": { "reviewId": revId } } }, { safe: true }, function(err, obj) {});
+      await Product.updateOne({ _id: id }, { "$pull": { "reviews": { "reviewId": revId } } }, { safe: true }, function(err, obj) {});
 
           await Review.deleteOne({_id:revId})
 

@@ -1,9 +1,14 @@
+if (process.env.NODE_ENV !== "production") {
+	require("dotenv").config();
+}
 const mongoose = require('mongoose')
 const passport = require('passport');
 const express = require('express')
 const app = express();
 const session=require('express-session');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
 const reviewRoutes=require('./routes/reviewRoutes')
 const Product= require('./models/productSchema');
 const {User}=require('./models/userSchema')
@@ -20,20 +25,21 @@ const methodOverride=require('method-override');
 const catchAsync = require('./utils/catchAsync')
 const Review=require('./models/reviewSchema')
 
+
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs');
-
+app.use(express.static('public'))
 app.use(bodyParser.json()); 
 app.use(express.urlencoded({ extended:true }))
-app.use(express.static('public'))
 
-const dbUrl = "mongodb://localhost:27017/ddx_db"
+
+const dbUrl = process.env.DB_URL ||"mongodb://localhost:27017/ddx_db"
 mongoose.connect(dbUrl,{
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true
 }).then(()=>{
-  console.log(`Database connection created at ${dbUrl}`)
+  console.log(`Database connection created`)
 })
 
 .catch((err)=>{
@@ -60,8 +66,58 @@ app.use(
 		},
 	})
 );
-app.use(flash())
+app.use(helmet());
 
+
+const scriptSrcUrls = [
+    "https://checkout.razorpay.com",
+    "http://code.jquery.com/jquery-1.7.1.min.js",
+    "https://stackpath.bootstrapcdn.com",
+    "https://kit.fontawesome.com",
+    "https://cdnjs.cloudflare.com",
+	"https://cdn.jsdelivr.net",
+	'https://code.jquery.com',
+];
+const styleSrcUrls = [
+    "https://maxcdn.bootstrapcdn.com",
+    "https://kit-free.fontawesome.com",
+    "https://stackpath.bootstrapcdn.com",
+    "https://fonts.googleapis.com",
+    "https://use.fontawesome.com",
+];
+const connectSrcUrls = [];
+const fontSrcUrls = [
+    "https://maxcdn.bootstrapcdn.com",
+    "https://fonts.gstatic.com",
+];
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            childSrc: ["blob:"],
+            frameSrc:["https://api.razorpay.com",],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+				        "https://res.cloudinary.com/arpityadav/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+                "https://images.unsplash.com",
+                "https://lh3.googleusercontent.com"
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
+app.use(helmet({contentSecurityPolicy:false}))
+app.use(mongoSanitize({
+	replaceWith:"_"
+}))
+app.use(flash())
 app.use(passport.initialize());
 app.use(passport.session());
 app.use((req,res,next)=>{
@@ -110,7 +166,7 @@ app.get('/search',catchAsync(async(req,res)=>{
     if(q==''){
         prod=prod.slice(0,3)
     }
-    res.send(prod)
+    res.send(prod);
 }))
 
 app.post('/:id/cart',catchAsync (async(req,res)=>{
@@ -210,29 +266,8 @@ app.post('/cart/delete',catchAsync (async(req,res)=>{
   res.send('deleted')
 }))
 
-app.get('/products',catchAsync(async(req,res)=>{
-  let newProduct = await Product.find();
-  res.render('products',{products:newProduct});
-}))
 
-app.get('/search',catchAsync(async(req,res)=>{
-   let {q}= req.query
-   let products = await Product.find({Keyword:q})
-  res.render('products',{products});
-}))
-app.get('/search',catchAsync(async(req,res)=>{
-  let {searchterm}= req.query
-  let products = await Product.find({Keyword:searchterm})
- res.render('products',{products});
-}))
-app.get('/products/men',catchAsync (async(req,res)=>{
-  let products = await Product.find({gender:"M"});
-  res.send(products);
-}))
-app.get('/products/women',catchAsync (async(req,res)=>{
-  let products = await Product.find({gender:"W"});
-  res.send(products);
-}))
+
 
 
 

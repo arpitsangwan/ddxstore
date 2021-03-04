@@ -15,12 +15,15 @@
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
     "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
     "express-joi-validation": "^5.0.0",
+    "express-mongo-sanitize": "^2.0.2",
     "express-session": "^1.17.1",
     "flash": "^1.1.0",
+    "helmet": "^4.4.1",
     "joi": "^17.4.0",
     "material-design-icons": "^3.0.1",
     "method-override": "^3.0.0",
@@ -31,6 +34,7 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
-    "razorpay": "^2.0.6"
+    "razorpay": "^2.0.6",
+    "sanitize-html": "^2.3.2"
   }
 }

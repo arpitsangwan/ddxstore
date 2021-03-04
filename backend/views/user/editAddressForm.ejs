@@ -25,7 +25,11 @@
     <input type="text" maxlength="100" id="landmark" placeholder="E.g. Near AIIMS Flyover, Behind Regal Cinema, etc." name="address[landmark]" value="<%=address.landmark%>" class="form-control" required>
   </div>
   <div class="form-group">
-    <label for="town">Town/City</label>
+    <label for="city">District</label>
+    <input type="text" maxlength="100" id="city" value="<%=address.city%>" name="address[city]" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="town">Town</label>
     <input type="text" maxlength="100" id="town" placeholder="E.g. Gurgaon" name="address[town]" class="form-control" value="<%=address.town%>" required>
   </div>
   <div class="form-group">

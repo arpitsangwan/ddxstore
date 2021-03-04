@@ -1,0 +1,30 @@
+.attrib.size .options .option.activ {
+  color: #fff;
+  border-color: #f7c531;
+  background-color: #f7c531;
+}
+.attribs .attrib .options .option {
+  margin: 10px;
+}
+.attribs .attrib .options .option:hover {
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+}
+.attribs .attrib .options .option {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  width: 35px;
+  height: 35px;
+  margin: 10px 10px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: darkgray;
+  border-radius: 5px;
+  border: 1px solid darkgray;
+  cursor: pointer;
+  user-select: none;
+  transition: ease all 0.3s;
+}

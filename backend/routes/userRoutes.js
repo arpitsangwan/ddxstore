@@ -1,29 +1,14 @@
 const router = require('express').Router()
 const {isLoggedIn}= require('../middleware');
-const {User} = require('../models/userSchema')
+
 const catchAsync = require('../utils/catchAsync');
+const user = require('../controllers/user');
 router.use(isLoggedIn);  
-router.get('/address/new',catchAsync(async(req,res)=>{
-  res.render('user/newAddressForm');
-}))
-router.get('/address/edit',(req,res)=>{
-  let address = req.user.address;
-  console.log(address);
-  res.render('user/editAddressForm',{address});
-})
+router.get('/address/new',catchAsync(user.NewAddressForm))
+router.get('/address/edit',user.UpdateAddressForm);
 
-router.post('/address',catchAsync(async(req,res)=>{
-  let currentUser = new User(req.user);
-  currentUser.address=(req.body.address);
-  let savedUser = await currentUser.save();
-  res.redirect('/profile');
-}))
+router.post('/address',catchAsync(user.createAddress));
 
-router.get('/orders',catchAsync(async(req,res)=>{
-  let user = await User.findById(req.user).populate('orders');
-  let orders= user.orders.reverse();
-  res.render('user/orders',{orders})
-
-}))
+router.get('/orders',catchAsync(user.getOrders));
 
 module.exports= router;

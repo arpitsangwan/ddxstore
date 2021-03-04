@@ -60,14 +60,12 @@ let btn= document.querySelector('.reviewbtn')
         rating = el.value;
       }
     }
-    console.log(rating);
        try{ 
          let data =await axios.post(`/products/${pid}/review`,{text:text,rating:rating}) 
          addReview(data);
               document.querySelector('#comment').value='';
       }
        catch(e){
-         console.dir(e)
          switch(e.response.status){
            case(403):{
             window.location.href='/login';

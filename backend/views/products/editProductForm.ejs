@@ -34,6 +34,37 @@
         </select>
         </div>
 
+        <div>
+          <h4><b>Add Stock for Each Size</b></h4>
+            <div class="table-responsive">
+              <table id="test-table" class="table table-condensed">
+                <thead>
+                  <tr>
+                    <th>Size</th>
+                    <th>Stock Available</th>
+                  </tr>
+                </thead>
+                <tbody id="test-body">
+                  <%product.stocks.forEach((stock,i)=>{%>
+                    <tr id="row<%=i%>">
+                      <td>
+                        <input name='stocks[<%=i%>][size]' value="<%=stock.size%>" type='text' class='form-control' />
+                      </td>
+                      <td>
+                        <input name='stocks[<%=i%>][units]' value="<%=stock.units%>" type='text' class='form-control input-md' />
+                      </td>
+                      <td>
+                        <input class='delete-row btn btn-primary' type='button' value='Delete' />
+                      </td>
+                    </tr>
+
+                  <%})%>
+                </tbody>
+              </table>
+              <input id='add-row' class='btn btn-primary mb-3' type='button' value='Add' />
+            </div>
+            </div>
+
 
         <div class="form-group">
           <!-- <input type="file" name="image" id="" multiple> -->
@@ -88,10 +119,12 @@
 
 
 
+<script>
+  let row = <%= product.stocks.length%>;
+</script>
 
-
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="/javascripts/addStocksBtn.js"></script>
 <script src="/javascripts/validateForms.js"></script>
 
 <%- include('../partials/footer') %>

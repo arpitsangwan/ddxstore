@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/stylesheets/search.css" class="rel">
+<link rel="stylesheet" href="/stylesheets/search.css" type="text/css">
 <div class="sticky-top">
     
 
@@ -29,7 +29,11 @@
                     <a class="nav-link" href="/logout">Logout</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/orders">My Orders</a>
+                    <%if(currentUser.isSeller){%>
+                        <a class="nav-link" href="/profile">Profile</a>    
+                    <%}else{%>
+                        <a class="nav-link" href="/user/orders">My Orders</a>
+                    <%}%>
                 </li>
             <%}else{%>
             <li class="nav-item">
@@ -68,7 +72,7 @@
 </div>
 
 
-<script src='JS/search.js'></script>
+<script src='http://localhost:3000/js/search.js'></script>
 
 
 

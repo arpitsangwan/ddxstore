@@ -3,26 +3,11 @@ const router=express.Router()
 const Razorpay=require('razorpay')
 const Product=require('../models/productSchema')
 const Order=require('../models/orderSchema')
-const crypto = require("crypto");
+const payment= require('../controllers/payments');
 const {User}=require('../models/userSchema')
 
 
-const checkSignature=(req,res,next)=>{
-const hmac = crypto.createHmac('sha256', 'tEXGaWqbhF06JgiQG9MoCy7V');
 
-hmac.update(req.session.orderId + "|" + req.body.razorpay_payment_id);
-let generatedSignature = hmac.digest('hex');
-
-
-let isSignatureValid = generatedSignature == req.body.razorpay_signature;
-    
-
-  if (isSignatureValid) {
-   return next()
-  }
-  req.flash('error','Payment failed')
-  res.redirect('/products')
-}
 
 const instance = new Razorpay({
     key_id: 'rzp_test_R41PjHReUPGRt1',
@@ -66,10 +51,19 @@ router.post('/',async (req,res)=>{
     
 })
 
-router.post('/payment/success/',checkSignature,async (req,res)=>{
+router.post('/payment/success/',payment.checkSignature,async (req,res)=>{
     let {razorpay_order_id,razorpay_payment_id,razorpay_signature}=req.body
    let order= await Order.findOneAndUpdate({orderId:razorpay_order_id},{paymentId:razorpay_payment_id,signature:razorpay_signature,isPaid:true},{new:true,useFindAndModify:false})
    //console.log(order)
+   order.orderItems.forEach(async(pr)=>{
+       let foundProduct= await Product.findById(pr.prid);
+       foundProduct.stocks.forEach(stock=>{
+           if(stock.size===pr.size){
+               stock.units= stock.units-pr.qty;
+           }
+       })  
+       await foundProduct.save();
+   })
    let user=await User.findById(req.user.id)
    user.orders.push(order)
    user.cartProducts=[];

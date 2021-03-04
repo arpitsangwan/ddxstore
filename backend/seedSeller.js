@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const {User} = require('./models/userSchema');
-const Seller = require('./models/sellerSchema')
-const dbUrl = "mongodb://localhost:27017/ddx_db"
+const Seller = require('./models/sellerSchema');
+if (process.env.NODE_ENV !== "production") {
+	require("dotenv").config();
+}
+const dbUrl = process.env.DB_URL ||"mongodb://localhost:27017/ddx_db"
 mongoose.connect(dbUrl,{
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -13,7 +16,7 @@ mongoose.connect(dbUrl,{
   console.log("Something went wrong while connecting to the database "+ err);
 })
 
-let email= 'arpitsangwan3@gmail.com';
+let email= 'yadavification@gmail.com';
 
 let makeAdmin = async(email)=>{
   let foundUser = await User.findOne({email:email});

@@ -13,7 +13,7 @@
       <strong ><%=currentUser.address.mobileNumber%></strong><br>
       <strong ><%=currentUser.address.address%> </strong><br>
       <strong ><%=currentUser.address.landmark%></strong><br>
-      <strong ><%currentUser.address.town%> <%=currentUser.address.state%> <%=currentUser.address.pincode%></strong><br>
+      <strong ><%=currentUser.address.town%>, <%=currentUser.address.city%>, <%=currentUser.address.state%> <%=currentUser.address.pincode%></strong><br>
       <strong >India</strong><br>
       </ul>
       </div>
@@ -27,11 +27,12 @@
 
  <h1 class='mb-5'>Shopping Cart</h1>
 
- <div class="shopping-cart">
+ <div class="shopping-cart  mb-3">
 
   <div class="column-labels">
     <label class="product-image">Image</label>
     <label class="product-details">Product</label>
+    <label class="product-size">Size</label>
     <label class="product-price">Price</label>
     <label class="product-quantity">Quantity</label>
     <label class="product-removal">Remove</label>
@@ -51,6 +52,7 @@
         <a href="/products/<%=product.pid%>"><%=product.name%></a></div>
       <p class="product-description"><%=product.description%></p>
     </div>
+    <div class="product-size"><%=product.size%></div>
     <div class="product-price"><%=product.mrp%></div>
     <div class="product-quantity">
       <input type="number" value="<%=product.qty%>" min="1">
@@ -87,5 +89,5 @@
 </div>
 
  <script src='JS/cart.js'></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

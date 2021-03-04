@@ -1,27 +1,31 @@
 
  .product-image {
 	 float: left;
-	 width: 20%;
+	 width: 18%;
 }
  .product-details {
 	 float: left;
-	 width: 37%;
+	 width: 35%;
+}
+.product-size{
+	float:left;
+	width:9%;
 }
  .product-price {
 	 float: left;
-	 width: 12%;
+	 width: 10%;
 }
  .product-quantity {
 	 float: left;
-	 width: 10%;
+	 width: 8%;
 }
  .product-removal {
 	 float: left;
 	 width: 9%;
 }
  .product-line-price {
-	 float: left;
-	 width: 12%;
+	 float: right;
+	 width: 11%;
 	 text-align: right;
 }
 /* This is used as the traditional .clearfix class */

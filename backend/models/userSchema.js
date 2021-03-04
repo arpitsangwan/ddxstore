@@ -36,6 +36,9 @@ const AddressSchema = new Schema({
   },
   town:{
     type:String,
+  },
+  city:{
+    type:String,
     required:true
   },
   state:{
