@@ -1,0 +1,95 @@
+<%- include('partials/header')%>
+<%-include('partials/navbar')%>
+
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="/stylesheets/products.css">
+
+ <% if(!products.length) { %>
+  <h2 class="text-center text-white"> Try changing search term </h2> 
+ <% }%>
+
+  <div class="container-fluid">
+
+  <div class="row">
+
+    <div class="col-sm-2 justify-content-start justify-content-md-center">
+
+            
+            <p style="font-size: 1.8rem; max-width: 100%; box-sizing:content-box;" class="text-center" >CATEGORIES</p>
+            <div style="font-size: 1.6rem;" class="checklist categories text-center">
+                <ul>
+                    <a href="/products/category/t-shirts" class="categories-link"> T-shirts</a>
+                    <a href="/products/category/joggers" class="categories-link">Joggers</a>
+                    <a href="/products/category/shirts" class="categories-link"> Shirts</a>
+                    <a href="/products/category/latest" class="categories-link"> New Arivals</a>
+                    <a href="/products/category/sweatshirts" class="categories-link"> Sweatshirts</a>
+                    <a href="/products/category/jackets" class="categories-link"> Jackets</a>
+                    <a href="/products/category/sweaters" class="categories-link"> Sweaters</a>
+                    <a href="/products/category/shoes" class="categories-link"> Shoes</a>
+                </ul>
+            </div>
+  </div>
+
+  
+  <div class="col-12 col-sm-10"> 
+  
+    <div id="grid-selector">
+            
+            Showing 1–9 of 48 results 
+    </div>
+
+        <div class="row d-flex justify-content-center justify-content-sm-start">
+        
+            <%products.forEach(product=>{%>
+
+                <div  class="product col-xl-3 col-lg-4 col-sm-6 col-9 mx-0 my-2" onclick="location.href='/products/<%=product._id%>';">    
+                    <div class="make3D">
+                        <div class="product-front">
+                            <div class="shadow"></div>
+                            <img src="<%=product.images[0].profile%>" alt="<%product.images[0].filename%>" />
+                            <div class="image_overlay"></div>             
+                            <div class="stats">        	
+                                <div class="stats-container w-100">
+                                    <span style="font-size:1.5rem;" class="product_name d-block"><%=product.name%></span>    
+                                    <span class="product_price ml-2">₹<%=product.sellingprice%></span>
+                                    <span  class="product_mrp ml-2">₹<%=product.mrp%></span>
+                                    <span class="product_discount"><%=Math.floor((product.mrp-product.sellingprice)/product.mrp *100)%>%off</span>
+                                    <span class="d-block product_category"><%=product.category%></span>                                            
+                                    <div class="product-options">
+                                    <strong>SIZES</strong>
+                                    <span>
+                                        <%product.stocks.forEach(s=>{%>
+                                            <%=s.size%>,
+                                        <%})%>
+                                        </span>
+                                </div>                       
+                                </div>                         
+                            </div>
+                        </div>     
+                     
+                    </div>
+            
+            
+                </div>
+      <%})%>
+      
+    
+    
+    
+    
+        </div>
+  
+    
+
+</div>
+ 
+
+</div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="/javascripts/products.js"></script>
+
+
+<%- include('partials/footer')%>

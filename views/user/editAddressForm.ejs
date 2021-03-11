@@ -1,0 +1,49 @@
+<%-include('../partials/header')%>
+<%-include('../partials/navbar')%>
+
+<div class="container ">
+  <form   action="/user/address" method="POST">
+  
+  <div class="form-group">
+    <label for="FullName" class="">Full name (First and Last name)</label>
+    <input type="text" maxlength="50" id="FullName" name="address[fullname]" value="<%=address.fullname%>" placeholder="John Doe" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="mobileNumber">Mobile Number</label>
+    <input type="text" maxlength="10" id="mobileNumber" placeholder="10-digit mobile number without prefixes" name="address[mobileNumber]" value="<%=address.mobileNumber%>" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for=pincode>Pincode</label>
+    <input type="text" maxlength="6" id=pincode placeholder="E.g. 400001" name="address[pincode]" value="<%=address.pincode%>" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="address">Flat, House no., Building, Company, Apartment</label>
+    <input type="text" maxlength="120" id="address" placeholder="" name="address[address]" class="form-control" value="<%=address.address%>" required>
+  </div>
+  <div class="form-group">
+    <label for="landmark">Landmark</label>
+    <input type="text" maxlength="100" id="landmark" placeholder="E.g. Near AIIMS Flyover, Behind Regal Cinema, etc." name="address[landmark]" value="<%=address.landmark%>" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="city">District</label>
+    <input type="text" maxlength="100" id="city" value="<%=address.city%>" name="address[city]" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="town">Town</label>
+    <input type="text" maxlength="100" id="town" placeholder="E.g. Gurgaon" name="address[town]" class="form-control" value="<%=address.town%>" >
+  </div>
+  <div class="form-group">
+    <label for="state">State/U.T</label>
+    <input type="text" maxlength="50" id="state" placeholder="E.g. Uttar Pradesh" name="address[state]" class="form-control" value="<%=address.state%>" required>
+  </div>
+  <button class="btn btn-primary">Submit</button>
+  
+  </form>
+</div>
+
+
+
+
+
+
+<%-include('../partials/footer')%>
